@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const newPost = new Post({
-      content: "Test Post",
+      content: req.body,
     });
 
     await newPost.save();
@@ -16,3 +16,5 @@ router.post("/", async (req, res) => {
     return res.status(500).json(`Server Error: ${err}`);
   }
 });
+
+module.exports = router;

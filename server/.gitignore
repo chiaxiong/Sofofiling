@@ -1,4 +1,4 @@
 node_modules
 
 # mongoDB
-config/default.json
+config/

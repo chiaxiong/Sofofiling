@@ -5,10 +5,10 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const user = new User({
-      firstName: "Chia",
-      lastName: "Xiong",
-      email: "chiaxiong@chia.com",
-      password: "12345678",
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
     });
 
     await user.save();
