@@ -4,7 +4,8 @@
   "description": "Sofofiling comes from the word Sophophile, a person who loves to gather knowledge. This web application provides anyone the means to volunteer their skills to service anyone of any need, whether this be teaching someone how to math, sing, play the guitar, learn how to break dance, start a new language, anything you can offer. Not only can you offer your skills to someone, but also look for a new skill to learn, seek help from someone, or find somewhere to who seeks the same interest as you.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "server": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "config": "^3.3.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.3.0",
