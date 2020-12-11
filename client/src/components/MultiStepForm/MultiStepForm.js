@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Router } from "@reach/router";
 import { makeStyles } from "@material-ui/core/styles";
 import SignUp from "../FormProcess/SignUp";
@@ -18,12 +12,6 @@ export default function MultiStepForm() {
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
-
-  function getSteps() {
-    return ["Sign Up", "Picture Profile", "Welcome"];
-  }
-
-  const steps = getSteps();
 
   function getStepsContent(stepIndex) {
     switch (stepIndex) {
@@ -44,11 +32,23 @@ export default function MultiStepForm() {
       margin: "6rem auto",
       borderRadius: "40px",
       backgroundColor: "#fff",
+      position: "relative",
+      bottom: "40px",
     },
     button: {
-      border: "10px solid ##F5AB7C",
-      borderRadius: "40px",
+      border: "10px solid #F5AB7C",
+      borderRadius: "50px",
       backgroundColor: "#fff",
+      minWidth: "500px",
+      minHeight: "90px",
+      position: "relative",
+      top: "30px",
+      color: "#6DB5FB",
+    },
+    p: {
+      fontSize: "40px",
+      padding: "0",
+      margin: "0 auto",
     },
   });
 
@@ -56,17 +56,14 @@ export default function MultiStepForm() {
 
   return (
     <div className={classes.root}>
-      {/* <Stepper activeStep={activeStep}>
-        {steps.map(label => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper> */}
       {getStepsContent(activeStep)}
-      <Button onClick={handleNext} className={classes.button}>
-        {activeStep === 2 ? "Let's GO!" : "Next"}
-      </Button>
+      <button onClick={handleNext} className={classes.button}>
+        {activeStep === 2 ? (
+          <p className={classes.p}>Let's GO!</p>
+        ) : (
+          <p className={classes.p}>Next</p>
+        )}
+      </button>
     </div>
   );
 }
