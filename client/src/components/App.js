@@ -1,5 +1,13 @@
-import React from "react";
+import "./App.css";
 
-export default function App() {
-  return <div>Hello World</div>;
+import MultiStepForm from "./MultiStepForm/MultiStepForm";
+
+function App() {
+  return (
+    <div className="App">
+      <MultiStepForm />
+    </div>
+  );
 }
+
+export default App;
