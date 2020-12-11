@@ -40,6 +40,6 @@ function validateUser(user) {
   });
   return schema.validate(user);
 }
-exports.user = User;
+exports.User = User;
 exports.validate = validateUser;
 exports.userSchema = userSchema;
