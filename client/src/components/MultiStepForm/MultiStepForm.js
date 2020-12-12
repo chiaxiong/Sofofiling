@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button } from "@material-ui/core";
-import { Router } from "@reach/router";
 import { makeStyles } from "@material-ui/core/styles";
 import SignUp from "../FormProcess/SignUp";
 import PictureProfile from "../FormProcess/PictureProfile";
 import Welcome from "../FormProcess/Welcome";
+import { Link } from "@reach/router";
 
 export default function MultiStepForm() {
   const [activeStep, setActiveStep] = useState(0);
@@ -50,20 +49,38 @@ export default function MultiStepForm() {
       padding: "0",
       margin: "0 auto",
     },
+    logo: {
+      border: "10px solid #F5AB7C",
+      borderRadius: "50px",
+      textDecoration: "none",
+    },
+    postBody: {
+      position: "absolute",
+      top: "0",
+      bottom: "0",
+      right: "0",
+      left: "0",
+      backgroundColor: "#f5ab7c",
+    },
   });
 
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      {getStepsContent(activeStep)}
-      <button onClick={handleNext} className={classes.button}>
-        {activeStep === 2 ? (
-          <p className={classes.p}>Let's GO!</p>
-        ) : (
-          <p className={classes.p}>Next</p>
-        )}
-      </button>
+    <div className={classes.postBody}>
+      <Link to="/" className={classes.logo}>
+        SOFOFILING
+      </Link>
+      <div className={classes.root}>
+        {getStepsContent(activeStep)}
+        <button onClick={handleNext} className={classes.button}>
+          {activeStep === 2 ? (
+            <p className={classes.p}>Let's GO!</p>
+          ) : (
+            <p className={classes.p}>Next</p>
+          )}
+        </button>
+      </div>
     </div>
   );
 }
