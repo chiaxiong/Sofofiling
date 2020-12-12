@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { postSchema } = require("./post");
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -26,6 +27,10 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     maxlength: 255,
     required: true,
+  },
+  post: {
+    type: [postSchema],
+    default: [],
   },
 });
 

@@ -2,9 +2,11 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
   },
   content: {
     type: String,

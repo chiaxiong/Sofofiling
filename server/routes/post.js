@@ -30,6 +30,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post)
+      return res.status(400).send(`Post ${req.params.id} does not exist.`);
+
+    return res.send(post);
+  } catch (err) {
+    return res.status(500).send(`Server Error: ${err}`);
+  }
+});
+
 router.put("/:id", async (req, res) => {
   try {
     const { error } = validate(req.body);
@@ -39,15 +52,32 @@ router.put("/:id", async (req, res) => {
       req.params.id,
       {
         content: req.body.content,
+        location: req.body.location,
       },
       { new: true }
     );
 
-    await product.save();
+    if (!updatePost)
+      return res.status(400).send(`Post ${req.params.id} does not exist.`);
 
-    return res.send(product);
+    await updatePost.save();
+
+    return res.send(updatePost);
   } catch (err) {
     return res.status(500).send(`Server Error: ${err}`);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const post = await Post.findByIdAndRemove(req.params.id);
+    if (!post)
+      return res
+        .status(400)
+        .send(`This post "${req.params.id}" does not exist.`);
+    return res.send(post);
+  } catch (err) {
+    return res.status(500).send(`Internal Server Error: ${err}`);
   }
 });
 
