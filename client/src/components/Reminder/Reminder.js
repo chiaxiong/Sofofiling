@@ -1,17 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import MailIcon from "@material-ui/icons/Mail";
-import MenuIcon from "@material-ui/icons/Menu";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -19,8 +10,23 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles(theme => ({
   myButton: {
     color: "#7E7B7B",
+    backgroundColor: "#F5AB7C",
+    "&:hover": {
+      backgroundColor: "#F5AB7C",
+    },
+    borderRadius: "20px",
+    width: "200px",
+    height: "80px",
+    position: "relative",
+    left: "40px",
     display: "flex",
-    direction: "column",
+    position: "relative",
+    top: "300px",
+    paddingRight: theme.spacing(8),
+    marginTop: theme.spacing(2),
+  },
+  buttonList: {
+    marginTop: theme.spacing(2),
   },
 }));
 
