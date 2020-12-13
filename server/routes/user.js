@@ -2,6 +2,9 @@ const { User, validate } = require("../models/user");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const auth = require("../middleware/auth");
+
+router.use(auth);
 
 router.post("/", async (req, res) => {
   try {
@@ -12,6 +15,7 @@ router.post("/", async (req, res) => {
     if (user) return res.status(400).send("Email already in use.");
 
     const salt = await bcrypt.genSalt(10);
+
     user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -21,7 +25,17 @@ router.post("/", async (req, res) => {
 
     await user.save();
 
-    return res.send({ _id: user._id, name: user.name, email: user.email });
+    const token = user.generateAuthToken();
+
+    return res
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
+      .send({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      });
   } catch (err) {
     return res.status(500).send(`Internal Server Error: ${err}`);
   }
