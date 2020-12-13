@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({

@@ -39,13 +39,16 @@ export default function Home() {
             </Typography>
           </IconButton>
           <Grid container display="flex" direction="row-reverse">
+            <Button color="inherit">Login</Button>
             <Link to="signup" className={classes.link}>
               <Button className={classes.button}>Sign Up</Button>
             </Link>
-            <Button color="inherit">Login</Button>
           </Grid>
         </Toolbar>
       </AppBar>
+      <Link to="feed">
+        <Button>Feed</Button>
+      </Link>
     </div>
   );
 }
