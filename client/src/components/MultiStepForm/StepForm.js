@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import SignUp from "../FormProcess/SignUp";
-import Welcome from "../FormProcess/Welcome";
-import PictureProfile from "../FormProcess/PictureProfile";
+import SignUp from "./FormDetail/SignUp";
+import Welcome from "./FormDetail/Welcome";
+import PictureProfile from "./FormDetail/PictureProfile";
+
+const usesStyles = makeStyles({
+  wrapper: {
+    backgroundColor: "#F5AB7C",
+  },
+});
 
 export default function StepForm() {
+  const classes = usesStyles();
+
   const [step, setStep] = useState(1);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -49,6 +57,4 @@ export default function StepForm() {
     case 3:
       return <Welcome />;
   }
-
-  return <div></div>;
 }

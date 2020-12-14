@@ -6,11 +6,43 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
+  wrapper: {
+    backgroundColor: "#F5AB7C",
+    position: "absolute",
+    top: "0",
+    bottom: "0",
+    right: "0",
+    left: "0",
+  },
   form: {
-    margin: theme.spacing(4),
+    backgroundColor: "#fff",
+    margin: theme.spacing(15, 50, 8, 50),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "50px",
+    minWidth: "500px",
+    minHeight: "600px",
   },
   input: {
-    marginTop: "36px",
+    marginTop: "50px",
+    width: "80vh",
+  },
+  button: {
+    // margin: theme.spacing(8, 0, 8, 0),
+    position: "relative",
+    top: "105px",
+    border: "10px solid #F5AB7C",
+    borderRadius: "50px",
+    minWidth: "400px",
+    minHeight: "70px",
+    backgroundColor: "#fff",
+    "&:hover": {
+      backgroundColor: "#fff",
+    },
+    fontSize: "25px",
+    color: "#6DB5FD",
   },
 }));
 
@@ -46,12 +78,12 @@ export default function SignUp({ nextStep, handleChange, values }) {
   // };
 
   return (
-    <div>
+    <div className={classes.wrapper}>
       <form className={classes.form} noValidate>
         <TextField
           name="firstName"
           required
-          fullWidth
+          // fullWidth
           id="firstName"
           label="First Name"
           className={classes.input}
@@ -61,7 +93,6 @@ export default function SignUp({ nextStep, handleChange, values }) {
 
         <TextField
           required
-          fullWidth
           id="lastName"
           label="Last Name"
           name="lastName"
@@ -72,7 +103,6 @@ export default function SignUp({ nextStep, handleChange, values }) {
 
         <TextField
           required
-          fullWidth
           id="email"
           label="Email Address"
           name="email"
@@ -83,7 +113,6 @@ export default function SignUp({ nextStep, handleChange, values }) {
 
         <TextField
           required
-          fullWidth
           name="password"
           label="Password"
           type="password"
@@ -92,8 +121,10 @@ export default function SignUp({ nextStep, handleChange, values }) {
           onChange={handleChange("password")}
           defaultValue={values.password}
         />
+        <Button onClick={forward} className={classes.button}>
+          Next
+        </Button>
       </form>
-      <Button onClick={forward}>Next</Button>
       <Link href="/signin" variant="body2">
         Already have an account? Sign in
       </Link>

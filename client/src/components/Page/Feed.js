@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "../SideBar/SideBar";
-import Reminder from "../Reminder/Reminder";
+import Reminder from "../SideBar/Reminder";
 import Grid from "@material-ui/core/Grid";
 import Post from "../Post/Post";
 
