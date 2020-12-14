@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import SideBar from "../SideBar/SideBar";
 import Reminder from "../Reminder/Reminder";
 import Grid from "@material-ui/core/Grid";

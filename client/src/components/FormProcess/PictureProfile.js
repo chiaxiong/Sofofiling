@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -19,7 +20,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PictureProfile() {
+export default function PictureProfile({ nextStep, prevStep }) {
+  const forward = e => {
+    e.preventDefault();
+    nextStep();
+  };
+
+  const back = e => {
+    e.preventDefault();
+    prevStep();
+  };
+
   const classes = useStyles();
   return (
     <Container>
@@ -29,6 +40,8 @@ export default function PictureProfile() {
       </Typography>
       <AccountCircleIcon className={classes.avatar} />
       <p className={classes.skip}>Or click Next to skip</p>
+      <Button onClick={back}>Back</Button>
+      <Button onClick={forward}>Next</Button>
     </Container>
   );
 }
