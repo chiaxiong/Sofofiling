@@ -1,20 +1,23 @@
 import "./App.css";
-// import MultiStepForm from "./MultiStepForm/MultiStepForm";
+import SignIn from "./Page/SignIn";
 import StepForm from "./MultiStepForm/StepForm";
 import Home from "./Home/Home";
 import { Router } from "@reach/router";
 import Feed from "./Page/Feed";
+import { UserProvider } from "../userContext/useUser";
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Home path="/" />
-        <StepForm path="signup" />
-        {/* <MultiStepForm path="signup" /> */}
-        <Feed path="feed" />
-      </Router>
-    </div>
+    <UserProvider>
+      <div className="App">
+        <Router>
+          <Home path="/" />
+          <StepForm path="signup" />
+          <SignIn path="signin" />
+          <Feed path="feed" />
+        </Router>
+      </div>
+    </UserProvider>
   );
 }
 

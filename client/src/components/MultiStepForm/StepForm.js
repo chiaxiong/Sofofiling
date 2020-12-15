@@ -1,18 +1,9 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import SignUp from "./FormDetail/SignUp";
 import Welcome from "./FormDetail/Welcome";
 import PictureProfile from "./FormDetail/PictureProfile";
 
-const usesStyles = makeStyles({
-  wrapper: {
-    backgroundColor: "#F5AB7C",
-  },
-});
-
 export default function StepForm() {
-  const classes = usesStyles();
-
   const [step, setStep] = useState(1);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

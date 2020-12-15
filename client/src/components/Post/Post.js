@@ -18,8 +18,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     dispaly: "flex",
-    justifyContent: "center",
-    alignItems: "center",
   },
   media: {
     height: 0,

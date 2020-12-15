@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
-import AuthProvider from "../Providers/AuthProvider";
+import AuthProvider from "../provider/authProvider";
 
 function getCurrentUser(token) {
   const userDecoded = jwt.decode(token);

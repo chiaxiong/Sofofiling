@@ -10,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    width: "100vh",
     flexGrow: 1,
   },
   menuButton: {
@@ -39,7 +40,11 @@ export default function Home() {
             </Typography>
           </IconButton>
           <Grid container display="flex" direction="row-reverse">
-            <Button color="inherit">Login</Button>
+            <Link to="signin" className={classes.link}>
+              <Button color="inherit" className={classes.button}>
+                Sign In
+              </Button>
+            </Link>
             <Link to="signup" className={classes.link}>
               <Button className={classes.button}>Sign Up</Button>
             </Link>

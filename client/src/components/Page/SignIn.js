@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import useUser from "../../userContext/useUser";
+import { navigate } from "@reach/router";
+import axios from "axios";
+import { Link } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     position: "relative",
-    top: "105px",
+    top: "205px",
     border: "10px solid #F5AB7C",
     borderRadius: "50px",
     minWidth: "400px",
@@ -42,66 +45,82 @@ const useStyles = makeStyles(theme => ({
     fontSize: "25px",
     color: "#6DB5FD",
   },
+  logo: {
+    fontWeight: "bold",
+    fontSize: "2.5em",
+    backgroundColor: "#fff",
+    border: "10px solid #F5AB7C",
+    borderRadius: "50px",
+    display: "inline",
+    padding: "20px",
+    position: "relative",
+    top: "150px",
+    color: "#F5AB7C",
+  },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
-export default function SignUp({ nextStep, handleChange, values }) {
+export default function SignIn() {
   const classes = useStyles();
+  const { setToken } = useUser();
 
-  const forward = e => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const signin = async e => {
     e.preventDefault();
-    nextStep();
+
+    const body = {
+      email: "bcandy@candy.com",
+      password: "12345678",
+    };
+
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/signin",
+        body
+      );
+      console.log(body);
+
+      if (data) {
+        setToken(data.token);
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form} noValidate>
+      <Link to="/" className={classes.link}>
+        <div className={classes.logo}>Sofofiling</div>
+      </Link>
+      <form className={classes.form} noValidate onSubmit={signin}>
         <TextField
-          name="firstName"
-          required
-          id="firstName"
-          label="First Name"
-          className={classes.input}
-          onChange={handleChange("firstName")}
-          defaultValue={values.firstName}
-        />
-
-        <TextField
-          required
-          id="lastName"
-          label="Last Name"
-          name="lastName"
-          className={classes.input}
-          onChange={handleChange("lastName")}
-          defaultValue={values.lastName}
-        />
-
-        <TextField
+          inputRef={emailRef}
           required
           id="email"
           label="Email Address"
           name="email"
           className={classes.input}
-          onChange={handleChange("email")}
-          defaultValue={values.email}
         />
 
         <TextField
+          inputRef={passwordRef}
           required
           name="password"
           label="Password"
           type="password"
           id="password"
           className={classes.input}
-          onChange={handleChange("password")}
-          defaultValue={values.password}
         />
-        <Button onClick={forward} className={classes.button}>
-          Next
+        <Button className={classes.button} type="submit">
+          Sign In
         </Button>
       </form>
-      <Link href="/signin" variant="body2">
-        Already have an account? Sign in
-      </Link>
     </div>
   );
 }

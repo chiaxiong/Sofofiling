@@ -3,6 +3,9 @@ import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import useUser from "../../../userContext/useUser";
+import { navigate } from "@reach/router";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -67,10 +70,23 @@ export default function PictureProfile({ nextStep, prevStep }) {
     prevStep();
   };
 
+  const { setToken } = useUser();
+
+  const signUp = async e => {
+    e.preventDefault();
+
+    const { data } = await axios.post("/api/auth/signup");
+
+    if (data) {
+      setToken(data.token);
+      navigate("feed");
+    }
+  };
+
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
-      <div className={classes.form}>
+      <form className={classes.form} onSubmit={signUp}>
         <Typography variant="h5" className={classes.message}>
           Time for an upload! <br />
           We recommend a nice headshot so everyone can see who you are!
@@ -79,7 +95,7 @@ export default function PictureProfile({ nextStep, prevStep }) {
         <p className={classes.skip} onCLick={forward}>
           Or click Next to skip
         </p>
-      </div>
+      </form>
       <Button onClick={back} className={classes.button}>
         Back
       </Button>
