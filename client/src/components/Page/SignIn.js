@@ -78,7 +78,10 @@ export default function SignIn() {
     };
 
     try {
-      const { data } = await axios.post("api/auth/signin", body);
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/signin",
+        body
+      );
       console.log(data);
 
       if (data) {
@@ -89,6 +92,30 @@ export default function SignIn() {
       console.log(err);
     }
   };
+
+  //   const signin = async e  => {
+  //     e.preventDefault();
+  //     try {
+  //       axios.post("api/auth/sign",
+  // email: req.body.email;
+  // password: req.body.email
+  //       })
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+
+  // const signin = e => {
+  //   e.preventDefault();
+  //   axios
+  //     .get("http://localhost:5000/api/auth/signin")
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div className={classes.wrapper}>

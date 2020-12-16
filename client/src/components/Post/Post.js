@@ -60,20 +60,20 @@ export default function Post({ props }) {
             <h3 className={classes.postHeader}>title</h3>
             <h5 className={classes.name}>Chia Xiong</h5>
           </div>
-          <FormControl component="fieldset" className={classes.radioBtn}>
-            <RadioGroup value={value} onChange={handleChange}>
-              <FormControlLabel
-                value="accept"
-                control={<Radio />}
-                label="Accept"
-              />
-              <FormControlLabel value="pass" control={<Radio />} label="Pass" />
-            </RadioGroup>
-          </FormControl>
         </div>
         <div>
           <p>Content goes here</p>
         </div>
+        <FormControl component="fieldset" className={classes.radioBtn}>
+          <RadioGroup value={value} onChange={handleChange}>
+            <FormControlLabel
+              value="accept"
+              control={<Radio />}
+              label="Accept"
+            />
+            <FormControlLabel value="pass" control={<Radio />} label="Pass" />
+          </RadioGroup>
+        </FormControl>
       </div>
     </div>
   );

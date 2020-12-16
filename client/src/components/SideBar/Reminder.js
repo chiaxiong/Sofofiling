@@ -36,7 +36,7 @@ const Reminder = () => {
       <Divider className={classes.divider} />
       <List className={classes.buttonList}>
         {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button button key={text} className={classes.myButton}>
+          <Button key={text} className={classes.myButton}>
             <ListItemText primary={text} />
           </Button>
         ))}

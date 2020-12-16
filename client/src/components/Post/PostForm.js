@@ -59,7 +59,7 @@ export default function PostForm({ props }) {
           <TextField className={classes.formField} multiline rows={5} />
           <div>
             <div className={classes.inputField}>
-              <label for="location">LOCATION</label>
+              <label htmlFor="location">LOCATION</label>
               <input type="text" name="location"></input>
               <h4>DATE</h4>
               <p>1/1/11</p>
