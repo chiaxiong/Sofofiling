@@ -4,10 +4,14 @@ import Avatar from "@material-ui/core/Avatar";
 import useUser from "../../userContext/useUser";
 import { TextField } from "@material-ui/core";
 
+import Button from "@material-ui/core/Button";
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     dispaly: "flex",
+    backgroundColor: "#eee",
+    marginLeft: "30px",
   },
   media: {
     height: 0,
@@ -22,17 +26,22 @@ const useStyles = makeStyles(theme => ({
     marginTop: "20px",
     marginLeft: "20px",
   },
-  postHeader: {
-    margin: theme.spacing(5.25, 0, 0, 2),
-  },
   avatar: {
     marginTop: "20px",
     width: "50px",
     height: "50px",
   },
   name: {
-    position: "relative",
-    right: "131px",
+    marginLeft: "16px",
+    fontSize: "1.5em",
+    marginTop: "30px",
+  },
+  formField: {
+    width: "100%",
+  },
+  radioBtn: {
+    display: "flex",
+    direction: "row",
   },
 }));
 
@@ -42,18 +51,26 @@ export default function PostForm({ props }) {
   return (
     <div className={classes.root}>
       <form>
-        <div className={classes.form}>
+        <div>
           <div className={classes.cardHeader}>
             <Avatar className={classes.avatar} />
-            <h3 className={classes.postHeader}>category</h3>
-            <h3 className={classes.postHeader}>title</h3>
             <h5 className={classes.name}>Chia Xiong</h5>
           </div>
-          <TextField />
+          <TextField className={classes.formField} multiline rows={5} />
+          <div>
+            <div className={classes.inputField}>
+              <label for="location">LOCATION</label>
+              <input type="text" name="location"></input>
+              <h4>DATE</h4>
+              <p>1/1/11</p>
+              <h4>TIME</h4>
+              <p>12:00</p>
+              <h4>LIMITED</h4>
+              <p>No</p>
+            </div>
+          </div>
         </div>
-        <div>
-          <p>Content goes here</p>
-        </div>
+        <Button>Post</Button>
       </form>
     </div>
   );

@@ -5,11 +5,17 @@ import Grid from "@material-ui/core/Grid";
 import Post from "../Post/Post";
 import PostForm from "../Post/PostForm";
 import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { Divider } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-  wrapper: {
-    width: "100%",
-    display: "flex",
+  reminder: {
+    position: "relative",
+    left: "20px",
+    bottom: "10px",
+  },
+  divider: {
+    marginLeft: "55px",
   },
 }));
 
@@ -17,17 +23,20 @@ export default function RecipeReviewCard() {
   const classes = useStyles();
   return (
     <div>
-      <Grid container justify="flex-end" alignItems="center" direction="column">
-        <Grid item>
+      <Grid container>
+        <Grid>
           <SideBar />
         </Grid>
-        <Grid item>
-          <PostForm />
-        </Grid>
-        <Grid item>
-          <Post />
-        </Grid>
         <Grid>
+          <Grid item>
+            <PostForm />
+          </Grid>
+          <Divider className={classes.divider} />
+          <Grid item>
+            <Post />
+          </Grid>
+        </Grid>
+        <Grid className={classes.reminder}>
           <Reminder />
         </Grid>
       </Grid>
