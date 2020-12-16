@@ -73,20 +73,17 @@ export default function SignIn() {
     e.preventDefault();
 
     const body = {
-      email: "bcandy@candy.com",
-      password: "12345678",
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
     };
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/auth/signin",
-        body
-      );
-      console.log(body);
+      const { data } = await axios.post("api/auth/signin", body);
+      console.log(data);
 
       if (data) {
         setToken(data.token);
-        navigate("/");
+        navigate("feed");
       }
     } catch (err) {
       console.log(err);

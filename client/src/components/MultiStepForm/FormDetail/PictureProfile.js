@@ -86,15 +86,13 @@ export default function PictureProfile({ nextStep, prevStep }) {
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form} onSubmit={signUp}>
+      <form className={classes.form}>
         <Typography variant="h5" className={classes.message}>
           Time for an upload! <br />
           We recommend a nice headshot so everyone can see who you are!
         </Typography>
         <AccountCircleIcon className={classes.avatar} />
-        <p className={classes.skip} onCLick={forward}>
-          Or click Next to skip
-        </p>
+        <p className={classes.skip}>Or click Next to skip</p>
       </form>
       <Button onClick={back} className={classes.button}>
         Back

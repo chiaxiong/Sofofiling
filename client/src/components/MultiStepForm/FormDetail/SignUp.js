@@ -61,7 +61,7 @@ export default function SignUp({ nextStep, handleChange, values }) {
           id="firstName"
           label="First Name"
           className={classes.input}
-          onChange={handleChange("firstName")}
+          onChange={handleChange("setFirstName")}
           defaultValue={values.firstName}
         />
 
