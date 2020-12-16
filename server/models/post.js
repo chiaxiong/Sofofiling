@@ -2,6 +2,12 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
+  category: {
+    type: String,
+  },
+  title: {
+    type: String,
+  },
   firstName: {
     type: String,
   },
