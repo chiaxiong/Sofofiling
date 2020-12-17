@@ -46,8 +46,22 @@ const useStyles = makeStyles(theme => ({
 export default function PostForm({ onPostSubmit }) {
   const classes = useStyles();
   const [post, setPost] = useState({
-    characters: "",
+    title: "",
+    location: "",
+    limit: "",
   });
+  const [content, setContent] = useState("");
+
+  const handleChange = e => {
+    setPost(post => ({ ...post, [e.target.name]: e.target.value }));
+    console.log({ [e.target.name]: e.target.value });
+  };
+
+  const handlePostBody = e => {
+    e.preventDefault();
+    setContent(content);
+    console.log(e.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -57,17 +71,43 @@ export default function PostForm({ onPostSubmit }) {
             <Avatar className={classes.avatar} />
             <h5 className={classes.name}>Chia Xiong</h5>
           </div>
-          <TextField className={classes.formField} multiline rows={5} />
+          <TextField
+            className={classes.formField}
+            multiline
+            rows={5}
+            onChange={handlePostBody}></TextField>
           <div>
             <div className={classes.inputField}>
+              <label htmlFor="title">TITLE</label>
+              <input
+                type="text"
+                name="title"
+                value={post.title}
+                onChange={handleChange}></input>
               <label htmlFor="location">LOCATION</label>
-              <input type="text" name="location"></input>
-              <label htmlFor="date">DATE</label>
-              <input type="text" name="date"></input>
+              <input
+                type="text"
+                name="location"
+                value={post.location}
+                onChange={handleChange}></input>
+              {/* <label htmlFor="date">DATE</label>
+              <input
+                type="text"
+                name="date"
+                value={post.date}
+                onChange={handleChange}></input>
               <label htmlFor="time">TIME</label>
-              <input type="text" name="time"></input>
+              <input
+                type="text"
+                name="time"
+                value={post.time}
+                onChange={handleChange}></input> */}
               <label htmlFor="limit">LIMIT</label>
-              <input type="text" name="limit"></input>
+              <input
+                type="text"
+                name="limit"
+                value={post.limit}
+                onChange={handleChange}></input>
             </div>
           </div>
         </div>

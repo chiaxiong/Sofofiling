@@ -5,10 +5,16 @@ import PictureProfile from "./FormDetail/PictureProfile";
 
 export default function StepForm() {
   const [step, setStep] = useState(1);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
   const nextStep = () => {
     setStep(step + 1);
@@ -19,13 +25,14 @@ export default function StepForm() {
   };
 
   const handleChange = input => event => {
-    setFirstName({ [input]: event.target.value });
-    setLastName({ [input]: event.target.value });
-    setEmail({ [input]: event.target.value });
-    setPassword({ [input]: event.target.value });
+    // setFirstName({ [input]: event.target.value });
+    // setLastName({ [input]: event.target.value });
+    // setEmail({ [input]: event.target.value });
+    // setPassword({ [input]: event.target.value });
+    setForm({ ...form, [event.target.form]: event.target.values });
   };
 
-  const values = { firstName, lastName, email, password };
+  const values = { form };
 
   switch (step) {
     case 1:

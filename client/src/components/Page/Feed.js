@@ -24,21 +24,20 @@ const useStyles = makeStyles(theme => ({
 export default function Feed() {
   const classes = useStyles();
 
-  const [singlePost, setSinglePost] = useState([]);
+  const [singlePost, setSinglePost] = useState({});
+  const [users, setUsers] = useState([]);
 
   const { token, user } = useUser();
 
   if (!user) navigate("/signin");
 
-  const addPost = ({ character }) => {
-    axios
-      .post(
-        "http://localhost:5000/api/post",
-        { content: character },
-        { headers: { "x-auth-token": token } }
-      )
+  const addPost = async () => {
+    await axios
+      .post("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
       .then(response => {
-        console.log(response);
+        console.log(response.data);
       })
       .catch(error => {
         console.log(error.response);

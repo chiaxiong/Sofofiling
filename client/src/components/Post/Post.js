@@ -62,9 +62,7 @@ export default function Post({ onGetPost }) {
             <h5 className={classes.name}>Chia Xiong</h5>
           </div>
         </div>
-        <div>
-          <p>Content goes here</p>
-        </div>
+        <div>{/* <p>{data.content}</p> */}</div>
         <FormControl component="fieldset" className={classes.radioBtn}>
           <RadioGroup value={value} onChange={handleChange}>
             <FormControlLabel
