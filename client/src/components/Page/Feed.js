@@ -25,19 +25,26 @@ export default function Feed() {
   const classes = useStyles();
 
   const [singlePost, setSinglePost] = useState({});
-  const [users, setUsers] = useState([]);
 
   const { token, user } = useUser();
 
   if (!user) navigate("/signin");
 
-  const addPost = async () => {
+  const addPost = async content => {
     await axios
-      .post("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
+      .post(
+        "http://localhost:5000/api/post",
+        {
+          content: content.content,
+          title: content.title,
+          limit: parseInt(content.limit),
+          location: content.location,
+        },
+        { headers: { "x-auth-token": token } }
+      )
       .then(response => {
         console.log(response.data);
+        console.log("post added");
       })
       .catch(error => {
         console.log(error.response);
@@ -50,7 +57,29 @@ export default function Feed() {
         headers: { "x-auth-token": token },
       })
       .then(response => {
-        console.log(response);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
+
+  useEffect(async () => {
+    await axios
+      .get("http://localhost:5000/api/post")
+      .then(({ data }) => setSinglePost(data))
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  const getUser = () => {
+    axios
+      .get("http://localhost:5000/api/user", {
+        headers: { "x-auth-token": token },
+      })
+      .then(response => {
+        console.log(response.data);
       })
       .catch(error => {
         console.log(error.response);
@@ -69,7 +98,7 @@ export default function Feed() {
           </Grid>
           <Divider className={classes.divider} />
           <Grid item>
-            <Post onGetPost={getPost} />
+            <Post onGetPost={getPost} onGetUser={getUser} />
           </Grid>
         </Grid>
         <Grid className={classes.reminder}>

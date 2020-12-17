@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Post({ onGetPost }) {
+export default function Post({ onGetPost, onGetUser }) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState("");
@@ -74,6 +74,7 @@ export default function Post({ onGetPost }) {
           </RadioGroup>
         </FormControl>
         <Button onClick={() => onGetPost()}>Get Post</Button>
+        <Button onClick={() => onGetUser()}>Get User</Button>
       </div>
     </div>
   );

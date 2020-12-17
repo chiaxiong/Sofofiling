@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 export default function PostForm({ onPostSubmit }) {
   const classes = useStyles();
   const [post, setPost] = useState({
+    content: "",
     title: "",
     location: "",
     limit: "",
@@ -53,19 +54,12 @@ export default function PostForm({ onPostSubmit }) {
   const [content, setContent] = useState("");
 
   const handleChange = e => {
-    setPost(post => ({ ...post, [e.target.name]: e.target.value }));
-    console.log({ [e.target.name]: e.target.value });
-  };
-
-  const handlePostBody = e => {
-    e.preventDefault();
-    setContent(content);
-    console.log(e.target.value);
+    setPost({ ...post, [e.target.name]: e.target.value });
   };
 
   return (
     <div className={classes.root}>
-      <form>
+      <form onSubmit={onPostSubmit}>
         <div>
           <div className={classes.cardHeader}>
             <Avatar className={classes.avatar} />
@@ -75,7 +69,9 @@ export default function PostForm({ onPostSubmit }) {
             className={classes.formField}
             multiline
             rows={5}
-            onChange={handlePostBody}></TextField>
+            name="content"
+            value={post.content}
+            onChange={handleChange}></TextField>
           <div>
             <div className={classes.inputField}>
               <label htmlFor="title">TITLE</label>
