@@ -2,7 +2,7 @@ import React from "react";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
@@ -36,7 +36,7 @@ const Reminder = () => {
       <Divider className={classes.divider} />
       <List className={classes.buttonList}>
         {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button key={text} className={classes.myButton}>
+          <Button key={index} className={classes.myButton}>
             <ListItemText primary={text} />
           </Button>
         ))}

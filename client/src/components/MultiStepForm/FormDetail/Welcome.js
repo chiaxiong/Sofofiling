@@ -1,7 +1,10 @@
 import React from "react";
-import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import useUser from "../../../userContext/useUser";
+import Button from "@material-ui/core/Button";
+import { navigate } from "@reach/router";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -33,9 +36,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function Welcome() {
   const classes = useStyles();
+
+  const { setToken } = useUser();
+
+  const signUp = async e => {
+    e.preventDefault();
+    console.log("click");
+    const { data } = await axios.post("http://localhost:5000/api/auth/signup");
+
+    if (data) {
+      setToken(data.token);
+      navigate("signin");
+    }
+  };
+
   return (
     <div className={classes.wrapper}>
-      <div className={classes.form}>
+      <form className={classes.form} onSubmit={signUp}>
         <Typography variant="h5" className={classes.message}>
           Welcome to the Sofofiling family!
           <br />
@@ -43,7 +60,8 @@ export default function Welcome() {
           Our name comes from the word sophophiles, a person who loves to gather
           knowledge! Start today to learn, or share what you know to others!
         </Typography>
-      </div>
+        <Button>Let's Go!</Button>
+      </form>
     </div>
   );
 }

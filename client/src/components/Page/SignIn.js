@@ -93,30 +93,6 @@ export default function SignIn() {
     }
   };
 
-  //   const signin = async e  => {
-  //     e.preventDefault();
-  //     try {
-  //       axios.post("api/auth/sign",
-  // email: req.body.email;
-  // password: req.body.email
-  //       })
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-
-  // const signin = e => {
-  //   e.preventDefault();
-  //   axios
-  //     .get("http://localhost:5000/api/auth/signin")
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
-
   return (
     <div className={classes.wrapper}>
       <Link to="/" className={classes.link}>

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
 import Reminder from "../SideBar/Reminder";
 import Grid from "@material-ui/core/Grid";
 import Post from "../Post/Post";
 import PostForm from "../Post/PostForm";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import { Divider } from "@material-ui/core";
+import { navigate } from "@reach/router";
+import axios from "axios";
+import useUser from "../../userContext/useUser";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -19,8 +21,43 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function RecipeReviewCard() {
+export default function Feed() {
   const classes = useStyles();
+
+  const [singlePost, setSinglePost] = useState([]);
+
+  const { token, user } = useUser();
+
+  if (!user) navigate("/signin");
+
+  const addPost = ({ character }) => {
+    axios
+      .post(
+        "http://localhost:5000/api/post",
+        { content: character },
+        { headers: { "x-auth-token": token } }
+      )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
+
+  const getPost = () => {
+    axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
+
   return (
     <div>
       <Grid container>
@@ -29,11 +66,11 @@ export default function RecipeReviewCard() {
         </Grid>
         <Grid>
           <Grid item>
-            <PostForm />
+            <PostForm onPostSubmit={addPost} />
           </Grid>
           <Divider className={classes.divider} />
           <Grid item>
-            <Post />
+            <Post onGetPost={getPost} />
           </Grid>
         </Grid>
         <Grid className={classes.reminder}>

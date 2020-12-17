@@ -3,9 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import useUser from "../../../userContext/useUser";
-import { navigate } from "@reach/router";
-import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -68,19 +65,6 @@ export default function PictureProfile({ nextStep, prevStep }) {
   const back = e => {
     e.preventDefault();
     prevStep();
-  };
-
-  const { setToken } = useUser();
-
-  const signUp = async e => {
-    e.preventDefault();
-
-    const { data } = await axios.post("/api/auth/signup");
-
-    if (data) {
-      setToken(data.token);
-      navigate("feed");
-    }
   };
 
   const classes = useStyles();

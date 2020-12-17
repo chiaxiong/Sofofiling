@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import useUser from "../../userContext/useUser";
 import { TextField } from "@material-ui/core";
-
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
@@ -45,8 +43,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PostForm({ props }) {
+export default function PostForm({ onPostSubmit }) {
   const classes = useStyles();
+  const [post, setPost] = useState({
+    characters: "",
+  });
 
   return (
     <div className={classes.root}>
@@ -61,16 +62,16 @@ export default function PostForm({ props }) {
             <div className={classes.inputField}>
               <label htmlFor="location">LOCATION</label>
               <input type="text" name="location"></input>
-              <h4>DATE</h4>
-              <p>1/1/11</p>
-              <h4>TIME</h4>
-              <p>12:00</p>
-              <h4>LIMITED</h4>
-              <p>No</p>
+              <label htmlFor="date">DATE</label>
+              <input type="text" name="date"></input>
+              <label htmlFor="time">TIME</label>
+              <input type="text" name="time"></input>
+              <label htmlFor="limit">LIMIT</label>
+              <input type="text" name="limit"></input>
             </div>
           </div>
         </div>
-        <Button>Post</Button>
+        <Button onClick={() => onPostSubmit(post)}>Post</Button>
       </form>
     </div>
   );

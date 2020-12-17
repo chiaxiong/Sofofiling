@@ -6,6 +6,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Post({ props }) {
+export default function Post({ onGetPost }) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState("");
@@ -74,6 +75,7 @@ export default function Post({ props }) {
             <FormControlLabel value="pass" control={<Radio />} label="Pass" />
           </RadioGroup>
         </FormControl>
+        <Button onClick={() => onGetPost()}>Get Post</Button>
       </div>
     </div>
   );
