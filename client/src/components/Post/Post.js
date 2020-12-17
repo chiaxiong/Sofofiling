@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Post({ onGetPost, onGetUser }) {
+export default function Post({ onGetPost }) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState("");
@@ -73,8 +73,6 @@ export default function Post({ onGetPost, onGetUser }) {
             <FormControlLabel value="pass" control={<Radio />} label="Pass" />
           </RadioGroup>
         </FormControl>
-        <Button onClick={() => onGetPost()}>Get Post</Button>
-        <Button onClick={() => onGetUser()}>Get User</Button>
       </div>
     </div>
   );

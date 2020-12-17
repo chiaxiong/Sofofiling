@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
 export default function Feed() {
   const classes = useStyles();
 
-  const [singlePost, setSinglePost] = useState({});
+  const [posts, setPosts] = useState([]);
+  const [refreshPost, setRefreshPost] = useState(true);
 
   const { token, user } = useUser();
 
@@ -51,40 +52,32 @@ export default function Feed() {
       });
   };
 
-  const getPost = () => {
-    axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-  };
-
-  useEffect(async () => {
-    await axios
-      .get("http://localhost:5000/api/post")
-      .then(({ data }) => setSinglePost(data))
-      .catch(err => {
-        console.log(err);
-      });
-  });
-
-  const getUser = () => {
+  useEffect(() => {
     axios
       .get("http://localhost:5000/api/user", {
         headers: { "x-auth-token": token },
       })
-      .then(response => {
-        console.log(response.data);
+      .then(res => {
+        console.log(res.data);
       })
-      .catch(error => {
-        console.log(error.response);
+      .catch(err => {
+        console.log(err.res);
       });
-  };
+  });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      // .then(({ data }) => setPosts(data))
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err.res);
+      });
+  }, [refreshPost]);
 
   return (
     <div>
@@ -98,7 +91,9 @@ export default function Feed() {
           </Grid>
           <Divider className={classes.divider} />
           <Grid item>
-            <Post onGetPost={getPost} onGetUser={getUser} />
+            {posts.map(post => (
+              <Post key={post._id} />
+            ))}
           </Grid>
         </Grid>
         <Grid className={classes.reminder}>
