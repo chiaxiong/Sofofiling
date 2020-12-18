@@ -62,7 +62,7 @@ export default function SignUp({ nextStep, handleChange, values }) {
           label="First Name"
           className={classes.input}
           onChange={handleChange("firstName")}
-          defaultValue={values.firstName}
+          // defaultValue={values.firstName}
         />
 
         <TextField
@@ -72,7 +72,7 @@ export default function SignUp({ nextStep, handleChange, values }) {
           name="lastName"
           className={classes.input}
           onChange={handleChange("lastName")}
-          defaultValue={values.lastName}
+          // defaultValue={values.lastName}
         />
 
         <TextField
@@ -82,7 +82,7 @@ export default function SignUp({ nextStep, handleChange, values }) {
           name="form"
           className={classes.input}
           onChange={handleChange("email")}
-          defaultValue={values.email}
+          // defaultValue={values.email}
         />
 
         <TextField
@@ -93,7 +93,7 @@ export default function SignUp({ nextStep, handleChange, values }) {
           id="password"
           className={classes.input}
           onChange={handleChange("password")}
-          defaultValue={values.password}
+          // defaultValue={values.password}
         />
         <Button onClick={forward} className={classes.button}>
           Next

@@ -25,6 +25,7 @@ export default function StepForm() {
   };
 
   const handleChange = input => event => {
+    console.log(event.target.value);
     // setFirstName({ [input]: event.target.value });
     // setLastName({ [input]: event.target.value });
     // setEmail({ [input]: event.target.value });
@@ -32,7 +33,7 @@ export default function StepForm() {
     setForm({ ...form, [event.target.form]: event.target.values });
   };
 
-  const values = { form };
+  // let values = { ...form };
 
   switch (step) {
     case 1:
@@ -40,7 +41,7 @@ export default function StepForm() {
         <SignUp
           nextStep={nextStep}
           handleChange={handleChange}
-          values={values}
+          // values={values}
         />
       );
     case 2:
@@ -49,7 +50,7 @@ export default function StepForm() {
           nextStep={nextStep}
           prevStep={prevStep}
           handleChange={handleChange}
-          values={values}
+          // values={values}
         />
       );
     case 3:

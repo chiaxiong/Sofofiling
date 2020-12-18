@@ -52,26 +52,29 @@ export default function Feed() {
       });
   };
 
+  //get posts
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      .then(res => {
+        setPosts(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err.res);
+      });
+  }, [refreshPost]);
+
+  //get users
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/user", {
         headers: { "x-auth-token": token },
       })
       .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err.res);
-      });
-  });
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      // .then(({ data }) => setPosts(data))
-      .then(res => {
+        setPosts(res.data);
         console.log(res.data);
       })
       .catch(err => {
@@ -92,7 +95,7 @@ export default function Feed() {
           <Divider className={classes.divider} />
           <Grid item>
             {posts.map(post => (
-              <Post key={post._id} />
+              <Post key={post._id} {...post} />
             ))}
           </Grid>
         </Grid>

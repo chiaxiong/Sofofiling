@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Post({ onGetPost }) {
+export default function Post(props) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState("");
@@ -58,11 +58,15 @@ export default function Post({ onGetPost }) {
           <div className={classes.cardHeader}>
             <Avatar className={classes.avatar} />
             <h3 className={classes.postHeader}>category</h3>
-            <h3 className={classes.postHeader}>title</h3>
-            <h5 className={classes.name}>Chia Xiong</h5>
+            <h3 className={classes.postHeader}>{props.title}</h3>
+            <h5 className={classes.name}>{props.firstName}</h5>
+            <h5 className={classes.name}>{props.lastName}</h5>
           </div>
         </div>
-        <div>{/* <p>{data.content}</p> */}</div>
+        <div>
+          <p>{props.content}</p>
+        </div>
+        <div>{props.content}</div>
         <FormControl component="fieldset" className={classes.radioBtn}>
           <RadioGroup value={value} onChange={handleChange}>
             <FormControlLabel
