@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import "date-fns";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,10 +59,29 @@ export default function PostForm({ onPostSubmit }) {
     location: "",
     limit: "",
   });
-  const [content, setContent] = useState("");
+
+  const [selectedDate, setSelectedDate] = useState();
+
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
 
   const handleChange = e => {
     setPost({ ...post, [e.target.name]: e.target.value });
+  };
+
+  // const handleChange = event => {
+  //   setValue(event.target.value);
+  // };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -66,6 +93,7 @@ export default function PostForm({ onPostSubmit }) {
             <h5 className={classes.name}>Chia Xiong</h5>
           </div>
           <TextField
+            placeholder="What's on your mind today?"
             className={classes.formField}
             multiline
             rows={5}
@@ -86,18 +114,34 @@ export default function PostForm({ onPostSubmit }) {
                 name="location"
                 value={post.location}
                 onChange={handleChange}></input>
-              {/* <label htmlFor="date">DATE</label>
-              <input
-                type="text"
-                name="date"
-                value={post.date}
-                onChange={handleChange}></input>
-              <label htmlFor="time">TIME</label>
-              <input
-                type="text"
-                name="time"
-                value={post.time}
-                onChange={handleChange}></input> */}
+
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date picker inline"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                  <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    label="Time picker"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
               <label htmlFor="limit">LIMIT</label>
               <input
                 type="text"
@@ -106,6 +150,24 @@ export default function PostForm({ onPostSubmit }) {
                 onChange={handleChange}></input>
             </div>
           </div>
+          {/* <div>
+            <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}>
+              Open Menu
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}>
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
+          </div> */}
         </div>
         <Button onClick={() => onPostSubmit(post)}>Post</Button>
       </form>

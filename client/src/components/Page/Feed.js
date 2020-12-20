@@ -9,6 +9,7 @@ import { Divider } from "@material-ui/core";
 import { navigate } from "@reach/router";
 import axios from "axios";
 import useUser from "../../userContext/useUser";
+import MenuNav from "../MenuItem/MenuNav";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -19,13 +20,21 @@ const useStyles = makeStyles(theme => ({
   divider: {
     marginLeft: "55px",
   },
+  menu: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    width: "100%",
+  },
 }));
 
 export default function Feed() {
   const classes = useStyles();
 
   const [posts, setPosts] = useState([]);
+  const [userName, setUserName] = useState("");
   const [refreshPost, setRefreshPost] = useState(true);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState("");
 
   const { token, user } = useUser();
 
@@ -47,6 +56,7 @@ export default function Feed() {
         console.log(response.data);
         console.log("post added");
       })
+      .then(() => setRefreshPost(!refreshPost))
       .catch(error => {
         console.log(error.response);
       });
@@ -74,7 +84,7 @@ export default function Feed() {
         headers: { "x-auth-token": token },
       })
       .then(res => {
-        setPosts(res.data);
+        // setPosts(res.data);
         console.log(res.data);
       })
       .catch(err => {
@@ -82,15 +92,33 @@ export default function Feed() {
       });
   }, [refreshPost]);
 
+  const addCategory = async () => {
+    await axios
+      .post(
+        "http://localhost:5000/api/category",
+        { title: "Music" },
+        { headers: { "x-auth-token": token } }
+      )
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err.res);
+      });
+  };
+
   return (
     <div>
       <Grid container>
+        <Grid className={classes.menu}>
+          <MenuNav />
+        </Grid>
         <Grid>
           <SideBar />
         </Grid>
         <Grid>
           <Grid item>
-            <PostForm onPostSubmit={addPost} />
+            <PostForm onPostSubmit={addPost} onCategoryList={addCategory} />
           </Grid>
           <Divider className={classes.divider} />
           <Grid item>

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import useUser from "../../../userContext/useUser";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -44,17 +46,55 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp({ nextStep, handleChange, values }) {
+export default function SignUp({
+  nextStep,
+  handleChange,
+  values,
+  handleResetInfo,
+}) {
   const classes = useStyles();
+
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const forward = e => {
     e.preventDefault();
     nextStep();
   };
 
+  const { setToken } = useUser();
+
+  const signUp = async e => {
+    e.preventDefault();
+    console.log("click");
+    const body = {
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        body
+      );
+
+      if (data) {
+        setToken(data.token);
+      }
+
+      nextStep();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form} noValidate>
+      <form className={classes.form} noValidate onSubmit={signUp}>
         <TextField
           name="form"
           required
@@ -62,7 +102,8 @@ export default function SignUp({ nextStep, handleChange, values }) {
           label="First Name"
           className={classes.input}
           onChange={handleChange("firstName")}
-          // defaultValue={values.firstName}
+          defaultValue={values.firstName}
+          inputRef={firstNameRef}
         />
 
         <TextField
@@ -72,7 +113,8 @@ export default function SignUp({ nextStep, handleChange, values }) {
           name="lastName"
           className={classes.input}
           onChange={handleChange("lastName")}
-          // defaultValue={values.lastName}
+          defaultValue={values.lastName}
+          inputRef={lastNameRef}
         />
 
         <TextField
@@ -82,7 +124,8 @@ export default function SignUp({ nextStep, handleChange, values }) {
           name="form"
           className={classes.input}
           onChange={handleChange("email")}
-          // defaultValue={values.email}
+          defaultValue={values.email}
+          inputRef={emailRef}
         />
 
         <TextField
@@ -93,10 +136,14 @@ export default function SignUp({ nextStep, handleChange, values }) {
           id="password"
           className={classes.input}
           onChange={handleChange("password")}
-          // defaultValue={values.password}
+          defaultValue={values.password}
+          inputRef={passwordRef}
         />
-        <Button onClick={forward} className={classes.button}>
-          Next
+        {/* <Button onClick={handleResetInfo} className={classes.button}>
+          Reset
+        </Button> */}
+        <Button className={classes.button} type="submit">
+          Submit
         </Button>
       </form>
       <Link href="/signin" variant="body2">
