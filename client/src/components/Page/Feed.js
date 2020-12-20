@@ -33,8 +33,7 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [userName, setUserName] = useState("");
   const [refreshPost, setRefreshPost] = useState(true);
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("");
+  const [category, setCategory] = useState([]);
 
   const { token, user } = useUser();
 
@@ -53,7 +52,7 @@ export default function Feed() {
         { headers: { "x-auth-token": token } }
       )
       .then(response => {
-        console.log(response.data);
+        console.log(response);
         console.log("post added");
       })
       .then(() => setRefreshPost(!refreshPost))
@@ -63,15 +62,12 @@ export default function Feed() {
   };
 
   //get posts
-  useEffect(() => {
+  useEffect(async () => {
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
       })
-      .then(res => {
-        setPosts(res.data);
-        console.log(res.data);
-      })
+      .then(({ data }) => setPosts(data))
       .catch(err => {
         console.log(err.res);
       });
@@ -84,28 +80,13 @@ export default function Feed() {
         headers: { "x-auth-token": token },
       })
       .then(res => {
-        // setPosts(res.data);
+        setUserName(res.data);
         console.log(res.data);
       })
       .catch(err => {
         console.log(err.res);
       });
   }, [refreshPost]);
-
-  const addCategory = async () => {
-    await axios
-      .post(
-        "http://localhost:5000/api/category",
-        { title: "Music" },
-        { headers: { "x-auth-token": token } }
-      )
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err.res);
-      });
-  };
 
   return (
     <div>
@@ -118,12 +99,12 @@ export default function Feed() {
         </Grid>
         <Grid>
           <Grid item>
-            <PostForm onPostSubmit={addPost} onCategoryList={addCategory} />
+            <PostForm onPostSubmit={addPost} />
           </Grid>
           <Divider className={classes.divider} />
           <Grid item>
             {posts.map(post => (
-              <Post key={post._id} {...post} />
+              <Post key={post._id} {...post} {...userName} />
             ))}
           </Grid>
         </Grid>

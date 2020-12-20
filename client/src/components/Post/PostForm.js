@@ -3,14 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import "date-fns";
-import Grid from "@material-ui/core/Grid";
+import { useFormik, Field } from "formik";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +38,8 @@ const useStyles = makeStyles(theme => ({
   },
   formField: {
     width: "100%",
+    marginRight: "20px",
+    marginLeft: "20px",
   },
   radioBtn: {
     display: "flex",
@@ -53,123 +49,67 @@ const useStyles = makeStyles(theme => ({
 
 export default function PostForm({ onPostSubmit }) {
   const classes = useStyles();
-  const [post, setPost] = useState({
-    content: "",
-    title: "",
-    location: "",
-    limit: "",
+  const formik = useFormik({
+    initialValues: {
+      content: "",
+      title: "",
+      location: "",
+      limit: "",
+    },
+    onSubmit: values => {
+      onPostSubmit(values);
+      console.log(values);
+    },
   });
 
-  const [selectedDate, setSelectedDate] = useState();
-
-  const handleDateChange = date => {
-    setSelectedDate(date);
-  };
-
-  const handleChange = e => {
-    setPost({ ...post, [e.target.name]: e.target.value });
-  };
-
-  // const handleChange = event => {
-  //   setValue(event.target.value);
-  // };
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  console.log("Form values: ", formik.values);
 
   return (
     <div className={classes.root}>
-      <form onSubmit={onPostSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div>
           <div className={classes.cardHeader}>
             <Avatar className={classes.avatar} />
-            <h5 className={classes.name}>Chia Xiong</h5>
           </div>
-          <TextField
-            placeholder="What's on your mind today?"
-            className={classes.formField}
-            multiline
-            rows={5}
-            name="content"
-            value={post.content}
-            onChange={handleChange}></TextField>
           <div>
+            <input
+              type="text"
+              name="content"
+              id="content"
+              value={formik.values.content}
+              onChange={formik.handleChange}
+            />
             <div className={classes.inputField}>
               <label htmlFor="title">TITLE</label>
               <input
                 type="text"
                 name="title"
-                value={post.title}
-                onChange={handleChange}></input>
+                id="title"
+                value={formik.values.title}
+                onChange={formik.handleChange}
+              />
               <label htmlFor="location">LOCATION</label>
               <input
                 type="text"
                 name="location"
-                value={post.location}
-                onChange={handleChange}></input>
-
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date picker inline"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                  <KeyboardTimePicker
-                    margin="normal"
-                    id="time-picker"
-                    label="Time picker"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change time",
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
+                id="location"
+                value={formik.values.location}
+                onChange={formik.handleChange}
+              />
               <label htmlFor="limit">LIMIT</label>
               <input
                 type="text"
                 name="limit"
-                value={post.limit}
-                onChange={handleChange}></input>
+                id="limit"
+                value={formik.values.limit}
+                onChange={formik.handleChange}
+              />
             </div>
           </div>
-          {/* <div>
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}>
-              Open Menu
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-          </div> */}
         </div>
-        <Button onClick={() => onPostSubmit(post)}>Post</Button>
+        <Button type="submit" onClick={() => onPostSubmit(formik)}>
+          Post
+        </Button>
       </form>
     </div>
   );
