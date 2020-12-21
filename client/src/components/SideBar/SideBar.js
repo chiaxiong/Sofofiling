@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -11,6 +11,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
+import useUser from "../../userContext/useUser";
+import { navigate } from "@reach/router";
 
 const drawerWidth = 300;
 
@@ -88,6 +91,23 @@ function ResponsiveDrawer(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const { token, user } = useUser();
+
+  if (!user) navigate("/signin");
+
+  const [categoryList, setCategoryList] = useState("");
+
+  useEffect(async () => {
+    axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      .then(({ data }) => setCategoryList(data))
+      .catch(error => {
+        console.log(error);
+      });
+  });
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -100,7 +120,7 @@ function ResponsiveDrawer(props) {
       <Typography>Trending Categories</Typography>
       <List className={classes.buttonList}>
         {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button key={text} className={classes.trendingButton}>
+          <Button key={index} className={classes.trendingButton}>
             <ListItemText primary={text} />
           </Button>
         ))}

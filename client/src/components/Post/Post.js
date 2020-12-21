@@ -6,8 +6,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { Divider } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
@@ -66,9 +64,7 @@ export default function Post(props) {
               <Avatar className={classes.avatar} />
             </Grid>
             <Grid className={classes.name}>
-              <h4>
-                {props.user.firstName} {props.user.lastName}
-              </h4>
+              <h4>{/* {props.user.firstName} {props.user.lastName} */}</h4>
             </Grid>
           </Grid>
           <Grid item className={classes.postHeader}>

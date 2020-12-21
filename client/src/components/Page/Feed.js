@@ -23,6 +23,8 @@ const useStyles = makeStyles(theme => ({
   menu: {
     flexDirection: "row-reverse",
     width: "100%",
+    position: "relative",
+    left: "1200px",
   },
 }));
 
@@ -72,10 +74,10 @@ export default function Feed() {
   return (
     <div>
       <Grid container display="flex">
-        <Grid className={classes.menu}>
+        <Grid item className={classes.menu}>
           <MenuNav />
         </Grid>
-        <Grid>
+        <Grid item>
           <SideBar />
         </Grid>
         <Grid>

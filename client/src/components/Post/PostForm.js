@@ -10,6 +10,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,7 +76,6 @@ export default function PostForm({ onPostSubmit }) {
       onPostSubmit(values);
     },
   });
-
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -129,6 +130,10 @@ export default function PostForm({ onPostSubmit }) {
                   value={formik.values.limit}
                   onChange={formik.handleChange}
                 />
+              </Grid>
+              <Grid>
+                <label>Select Date:</label>
+                <DatePicker name="datePicker" dateFormat="MM/dd/yyyy" />
               </Grid>
             </Grid>
             <FormControl className={classes.formControl}>
