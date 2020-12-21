@@ -33,7 +33,6 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [userName, setUserName] = useState("");
   const [refreshPost, setRefreshPost] = useState(true);
-  const [category, setCategory] = useState([]);
 
   const { token, user } = useUser();
 
@@ -51,14 +50,11 @@ export default function Feed() {
         },
         { headers: { "x-auth-token": token } }
       )
-      .then(response => {
-        console.log(response);
-        console.log("post added");
+      .then(res => {
+        setRefreshPost(!refreshPost);
+        console.log(res);
       })
-      .then(() => setRefreshPost(!refreshPost))
-      .catch(error => {
-        console.log(error.response);
-      });
+      .catch(er => console.warn(er));
   };
 
   //get posts
@@ -81,7 +77,7 @@ export default function Feed() {
       })
       .then(res => {
         setUserName(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch(err => {
         console.log(err.res);
