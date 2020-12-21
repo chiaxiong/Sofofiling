@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ backgroundColor: "#f5ab7c" }}>
+      <AppBar style={{ backgroundColor: "#f5ab7c" }}>
         <Toolbar>
           <IconButton>
             <Typography variant="h6" className={classes.title}>
