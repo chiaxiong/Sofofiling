@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "55px",
   },
   menu: {
-    display: "flex",
     flexDirection: "row-reverse",
     width: "100%",
   },
@@ -31,13 +30,13 @@ export default function Feed() {
   const classes = useStyles();
 
   const [posts, setPosts] = useState([]);
-  const [userName, setUserName] = useState("");
   const [refreshPost, setRefreshPost] = useState(true);
 
   const { token, user } = useUser();
 
   if (!user) navigate("/signin");
 
+  //add new post
   const addPost = async content => {
     await axios
       .post(
@@ -47,6 +46,7 @@ export default function Feed() {
           title: content.title,
           limit: parseInt(content.limit),
           location: content.location,
+          category: content.category,
         },
         { headers: { "x-auth-token": token } }
       )
@@ -64,29 +64,14 @@ export default function Feed() {
         headers: { "x-auth-token": token },
       })
       .then(({ data }) => setPosts(data))
-      .catch(err => {
-        console.log(err.res);
-      });
-  }, [refreshPost]);
-
-  //get users
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/user", {
-        headers: { "x-auth-token": token },
-      })
-      .then(res => {
-        setUserName(res.data);
-        // console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err.res);
+      .catch(error => {
+        console.log(error);
       });
   }, [refreshPost]);
 
   return (
     <div>
-      <Grid container>
+      <Grid container display="flex">
         <Grid className={classes.menu}>
           <MenuNav />
         </Grid>
@@ -100,7 +85,7 @@ export default function Feed() {
           <Divider className={classes.divider} />
           <Grid item>
             {posts.map(post => (
-              <Post key={post._id} {...post} {...userName} />
+              <Post key={post._id} {...post} />
             ))}
           </Grid>
         </Grid>

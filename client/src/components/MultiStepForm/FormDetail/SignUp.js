@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import useUser from "../../../userContext/useUser";
 import axios from "axios";
+import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -84,6 +85,7 @@ export default function SignUp({
 
       if (data) {
         setToken(data.token);
+        navigate("/");
       }
 
       nextStep();
@@ -139,9 +141,6 @@ export default function SignUp({
           defaultValue={values.password}
           inputRef={passwordRef}
         />
-        {/* <Button onClick={handleResetInfo} className={classes.button}>
-          Reset
-        </Button> */}
         <Button className={classes.button} type="submit">
           Submit
         </Button>

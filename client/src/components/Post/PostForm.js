@@ -68,21 +68,14 @@ export default function PostForm({ onPostSubmit }) {
       content: "",
       location: "",
       limit: "",
+      category: "",
     },
     onSubmit: values => {
       onPostSubmit(values);
     },
   });
 
-  //category state
-  const [category, setCategory] = useState("");
   const [open, setOpen] = useState(false);
-
-  //handling category
-  const handleChange = event => {
-    setCategory(event.target.value);
-    console.log(event.target.value);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -138,15 +131,16 @@ export default function PostForm({ onPostSubmit }) {
                 />
               </Grid>
             </Grid>
-
             <FormControl className={classes.formControl}>
               <InputLabel>Category</InputLabel>
               <Select
+                name="category"
+                id="category"
                 open={open}
                 onClose={handleClose}
                 onOpen={handleOpen}
-                value={category}
-                onChange={handleChange}>
+                value={formik.values.category}
+                onChange={formik.handleChange}>
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>

@@ -5,38 +5,46 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { Divider } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    dispaly: "flex",
-    backgroundColor: "#eee",
+    width: "100vh",
+    display: "flex",
     marginLeft: "30px",
   },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  card: {
-    minWidth: "1000px",
-  },
   cardHeader: {
-    paddingLeft: theme.spacing(5),
-    display: "flex",
-    marginTop: "20px",
-    marginLeft: "20px",
-  },
-  postHeader: {
-    margin: theme.spacing(5.25, 0, 0, 2),
+    flexDirection: "column",
   },
   avatar: {
-    marginTop: "20px",
+    margin: theme.spacing(4, 0, 0, 4),
     width: "50px",
     height: "50px",
+    backgroundColor: "#F5AB7C",
   },
   name: {
-    position: "relative",
-    right: "131px",
+    padding: "0",
+    marginLeft: "20px",
+    marginTop: "14px",
+  },
+  formField: {
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "left",
+    marginRight: theme.spacing(4),
+  },
+  postHeader: {
+    // position: "relative",
+    // top: "40px",
+    // right: "83px",
+    // display: "inline",
+  },
+  card: {
+    borderBottom: "1px solid black",
+    paddingBottom: "40px",
   },
 }));
 
@@ -50,20 +58,41 @@ export default function Post(props) {
   };
 
   return (
-    <div>
-      <div className={classes.root}>
-        <div className={classes.card}>
-          <div className={classes.cardHeader}>
-            <Avatar className={classes.avatar} />
-            <h3 className={classes.postHeader}>category</h3>
-            <h3 className={classes.postHeader}>{props.title}</h3>
-            <h5 className={classes.name}>{props.firstName}</h5>
-            <h5 className={classes.name}>{props.lastName}</h5>
-          </div>
-        </div>
-        <div>
+    <div className={classes.root}>
+      <Container className={classes.card}>
+        <Grid container className={classes.cardHeader}>
+          <Grid container>
+            <Grid item>
+              <Avatar className={classes.avatar} />
+            </Grid>
+            <Grid className={classes.name}>
+              <h4>
+                {props.user.firstName} {props.user.lastName}
+              </h4>
+            </Grid>
+          </Grid>
+          <Grid item className={classes.postHeader}>
+            <h3>
+              <span>Category</span> <span>.</span>
+              <span>{props.title}</span>
+            </h3>
+          </Grid>
+        </Grid>
+
+        <Grid>
           <p>{props.content}</p>
-        </div>
+        </Grid>
+
+        <Grid container>
+          <Grid item className={classes.formField}>
+            <h4>Location:</h4>
+            <h4>Limit:</h4>
+          </Grid>
+          <Grid item className={classes.formField}>
+            <p>{props.location}</p>
+            <p>{props.limit}</p>
+          </Grid>
+        </Grid>
         <FormControl component="fieldset" className={classes.radioBtn}>
           <RadioGroup value={value} onChange={handleChange}>
             <FormControlLabel
@@ -74,7 +103,7 @@ export default function Post(props) {
             <FormControlLabel value="pass" control={<Radio />} label="Pass" />
           </RadioGroup>
         </FormControl>
-      </div>
+      </Container>
     </div>
   );
 }
