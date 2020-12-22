@@ -10,6 +10,7 @@ export default function StepForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // step function
   const nextStep = () => {
     setStep(step + 1);
   };
