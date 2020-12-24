@@ -3,9 +3,6 @@ import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import useUser from "../../../userContext/useUser";
-import axios from "axios";
-import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -47,65 +44,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp({
-  nextStep,
-  handleChange,
-  values,
-  handleResetInfo,
-}) {
+export default function SignUp({ nextStep, handleChange, values }) {
   const classes = useStyles();
-
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
   const forward = e => {
     e.preventDefault();
     nextStep();
   };
 
-  const { setToken } = useUser();
-
-  const signUp = async e => {
-    e.preventDefault();
-    console.log("click");
-    const body = {
-      firstName: firstNameRef.current.value,
-      lastName: lastNameRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    };
-
-    try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        body
-      );
-
-      if (data) {
-        setToken(data.token);
-        navigate("/");
-      }
-
-      nextStep();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form} noValidate onSubmit={signUp}>
+      <form className={classes.form}>
         <TextField
           name="form"
           required
           id="firstName"
           label="First Name"
           className={classes.input}
-          onChange={handleChange("firstName")}
-          defaultValue={values.firstName}
-          inputRef={firstNameRef}
+          onChange={handleChange("fname")}
+          defaultValue={values.fname}
         />
 
         <TextField
@@ -114,9 +70,8 @@ export default function SignUp({
           label="Last Name"
           name="lastName"
           className={classes.input}
-          onChange={handleChange("lastName")}
-          defaultValue={values.lastName}
-          inputRef={lastNameRef}
+          onChange={handleChange("lname")}
+          defaultValue={values.lname}
         />
 
         <TextField
@@ -127,7 +82,6 @@ export default function SignUp({
           className={classes.input}
           onChange={handleChange("email")}
           defaultValue={values.email}
-          inputRef={emailRef}
         />
 
         <TextField
@@ -139,10 +93,9 @@ export default function SignUp({
           className={classes.input}
           onChange={handleChange("password")}
           defaultValue={values.password}
-          inputRef={passwordRef}
         />
-        <Button className={classes.button} type="submit">
-          Submit
+        <Button className={classes.button} onClick={forward}>
+          Next
         </Button>
       </form>
       <Link href="/signin" variant="body2">

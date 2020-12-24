@@ -2,7 +2,6 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-// import { Link } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -32,12 +31,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Welcome() {
+export default function Welcome({ onFormSubmit, getUser }) {
   const classes = useStyles();
 
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={onFormSubmit}>
         <Typography variant="h5" className={classes.message}>
           Welcome to the Sofofiling family!
           <br />
@@ -45,9 +44,8 @@ export default function Welcome() {
           Our name comes from the word sophophiles, a person who loves to gather
           knowledge! Start today to learn, or share what you know to others!
         </Typography>
-        {/* <Link href="signin"> */}
-        <Button>SIGN IN</Button>
-        {/* </Link> */}
+        <Button type="submit">SIGN IN</Button>
+        <Button onClick={() => getUser()}>Get User</Button>
       </form>
     </div>
   );

@@ -65,7 +65,6 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn() {
   const classes = useStyles();
   const { setToken } = useUser();
-
   const emailRef = useRef();
   const passwordRef = useRef();
 
