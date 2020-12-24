@@ -6,67 +6,53 @@ import useUser from "../../userContext/useUser";
 import axios from "axios";
 import { navigate } from "@reach/router";
 
-export default function MultistepForm() {
+export default function StepForm() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
-    fname: "",
-    lname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
 
-  // step function
+  // step function forward
   const nextStep = () => {
     setStep(step + 1);
   };
-
+  // step function forward
   const prevStep = () => {
     setStep(step - 1);
   };
-
+  //handle form
   const handleChange = name => event => {
+    console.log({ ...form, [name]: event.target.value });
     setForm({ ...form, [name]: event.target.value });
   };
+  //passing state through sibling components
+  const { firstName, lastName, email, password } = form;
+  const values = { firstName, lastName, email, password };
 
-  const { fname, lname, email, password } = form;
-  const values = { fname, lname, email, password };
-
+  //sign up function
   const { setToken } = useUser();
 
   const signUp = async e => {
     e.preventDefault();
+    console.log(form);
     console.log("click");
-    const body = {
-      firstName: "HardCoded fname",
-      lastName: "HardCoded lname",
-      email: "HC_email@hc.com",
-      password: "password",
-    };
 
     try {
       const { data } = await axios.post(
         "http://localhost:5000/api/auth/signup",
-        body
+        form
       );
 
       if (data) {
         setToken(data.token);
-        navigate("/");
+        navigate("signin");
       }
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const getUser = () => {
-    axios
-      .get("http://localhost:5000/api/user")
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
   };
 
   switch (step) {
@@ -88,6 +74,6 @@ export default function MultistepForm() {
         />
       );
     case 3:
-      return <Welcome onFormSubmit={signUp} getUser={getUser} />;
+      return <Welcome onFormSubmit={signUp} />;
   }
 }

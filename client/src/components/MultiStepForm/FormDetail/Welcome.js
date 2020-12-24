@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Welcome({ onFormSubmit, getUser }) {
+export default function Welcome({ onFormSubmit }) {
   const classes = useStyles();
 
   return (
@@ -45,7 +45,6 @@ export default function Welcome({ onFormSubmit, getUser }) {
           knowledge! Start today to learn, or share what you know to others!
         </Typography>
         <Button type="submit">SIGN IN</Button>
-        <Button onClick={() => getUser()}>Get User</Button>
       </form>
     </div>
   );

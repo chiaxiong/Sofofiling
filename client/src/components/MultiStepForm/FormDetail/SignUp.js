@@ -55,30 +55,30 @@ export default function SignUp({ nextStep, handleChange, values }) {
     <div className={classes.wrapper}>
       <form className={classes.form}>
         <TextField
-          name="form"
           required
+          name="firstname"
           id="firstName"
           label="First Name"
           className={classes.input}
-          onChange={handleChange("fname")}
-          defaultValue={values.fname}
+          onChange={handleChange("firstName")}
+          defaultValue={values.firstName}
         />
 
         <TextField
           required
+          name="lastName"
           id="form"
           label="Last Name"
-          name="lastName"
           className={classes.input}
-          onChange={handleChange("lname")}
-          defaultValue={values.lname}
+          onChange={handleChange("lastName")}
+          defaultValue={values.lastName}
         />
 
         <TextField
           required
+          name="email"
           id="email"
           label="Email Address"
-          name="form"
           className={classes.input}
           onChange={handleChange("email")}
           defaultValue={values.email}
@@ -86,10 +86,10 @@ export default function SignUp({ nextStep, handleChange, values }) {
 
         <TextField
           required
-          name="form"
+          name="password"
+          id="password"
           label="Password"
           type="password"
-          id="password"
           className={classes.input}
           onChange={handleChange("password")}
           defaultValue={values.password}

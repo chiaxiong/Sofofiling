@@ -60,7 +60,7 @@ export default function Feed() {
   };
 
   //get posts
-  useEffect(async () => {
+  useEffect(() => {
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
@@ -70,6 +70,32 @@ export default function Feed() {
         console.log(error);
       });
   }, [refreshPost]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/user", {
+        headers: { "x-auth-token": token },
+      })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>

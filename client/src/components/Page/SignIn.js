@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -91,6 +91,17 @@ export default function SignIn() {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/user")
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className={classes.wrapper}>
