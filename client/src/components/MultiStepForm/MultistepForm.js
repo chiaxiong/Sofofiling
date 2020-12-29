@@ -28,8 +28,9 @@ export default function StepForm() {
     console.log({ ...form, [name]: event.target.value });
     setForm({ ...form, [name]: event.target.value });
   };
-  //passing state through sibling components
+  //deconstruct from state so we do not need to pass in dot notation
   const { firstName, lastName, email, password } = form;
+  //passing state through sibling components
   const values = { firstName, lastName, email, password };
 
   //sign up function
@@ -38,7 +39,7 @@ export default function StepForm() {
   const signUp = async e => {
     e.preventDefault();
     console.log(form);
-    console.log("click");
+    console.log("Form Submitted");
 
     try {
       const { data } = await axios.post(
