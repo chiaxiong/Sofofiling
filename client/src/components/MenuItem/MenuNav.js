@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import useUser from "../../userContext/useUser";
 import { Link } from "@reach/router";

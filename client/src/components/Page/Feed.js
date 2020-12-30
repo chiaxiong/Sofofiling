@@ -65,35 +65,12 @@ export default function Feed() {
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
       })
-      .then(({ data }) => setPosts(data))
+      .then(({ data }) => {
+        setPosts(data);
+        console.log(data);
+      })
       .catch(error => {
         console.log(error);
-      });
-  }, [refreshPost]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/user", {
-        headers: { "x-auth-token": token },
-      })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err);
       });
   }, []);
 

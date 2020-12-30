@@ -76,5 +76,7 @@ export default function StepForm() {
       );
     case 3:
       return <Welcome onFormSubmit={signUp} />;
+    default:
+      return null;
   }
 }

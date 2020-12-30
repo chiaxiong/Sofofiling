@@ -97,7 +97,7 @@ function ResponsiveDrawer(props) {
 
   const [categoryList, setCategoryList] = useState("");
 
-  useEffect(async () => {
+  useEffect(() => {
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
@@ -106,7 +106,7 @@ function ResponsiveDrawer(props) {
       .catch(error => {
         console.log(error);
       });
-  });
+  }, [categoryList]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

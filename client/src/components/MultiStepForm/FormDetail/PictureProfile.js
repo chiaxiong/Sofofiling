@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import styled from "styled-components";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -19,15 +21,12 @@ const useStyles = makeStyles(theme => ({
     width: "270px",
     height: "270px",
     color: "#F5AB7C",
+    cursor: "pointer",
   },
   message: {
     padding: "33px",
     margin: theme.spacing(0, 25, 0, 25),
     color: "#827F7F",
-  },
-  skip: {
-    margin: "0px",
-    paddingBottom: "50px",
   },
   button: {
     position: "relative",
@@ -56,7 +55,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const Span = styled.span`
+  margin: 0px;
+  padding-bottom: 50px;
+  cursor: pointer;
+  padding: 0px;
+`;
+
 export default function PictureProfile({ nextStep, prevStep }) {
+  const classes = useStyles();
+  const [file, setFile] = useState();
+
   const forward = e => {
     e.preventDefault();
     nextStep();
@@ -67,22 +76,48 @@ export default function PictureProfile({ nextStep, prevStep }) {
     prevStep();
   };
 
-  const classes = useStyles();
+  const onAvatarSubmit = async e => {
+    e.preventDefault();
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      axios.patch("http://localhost:5000/api/auth/user/avatar");
+    } catch (error) {}
+  };
+
+  const onChangeImage = e => {
+    setFile(e.target.files[0]);
+    console.log("click");
+  };
+
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={onAvatarSubmit}>
         <Typography variant="h5" className={classes.message}>
           Time for an upload! <br />
           We recommend a nice headshot so everyone can see who you are!
         </Typography>
         <AccountCircleIcon className={classes.avatar} />
-        <p className={classes.skip}>Or click Next to skip</p>
+        <input
+          type="file"
+          name="avatar"
+          id="avatar"
+          accept=".jpg, .png, .jpg"
+          onChange={onChangeImage}
+        />
+        <Span onClick={forward} className={classes.skip}>
+          Skip for now
+        </Span>
       </form>
       <Button onClick={back} className={classes.button}>
         Back
       </Button>
-      <Button onClick={forward} className={classes.button}>
-        Next
+      <Button type="submit" className={classes.button}>
+        Submit
       </Button>
     </div>
   );
