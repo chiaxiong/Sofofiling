@@ -65,6 +65,7 @@ const Span = styled.span`
 export default function PictureProfile({ nextStep, prevStep }) {
   const classes = useStyles();
   const [file, setFile] = useState();
+  const [uploadFile, setUploadFile] = useState({});
 
   const forward = e => {
     e.preventDefault();
@@ -85,13 +86,32 @@ export default function PictureProfile({ nextStep, prevStep }) {
     formData.append("file", file);
 
     try {
-      axios.patch("http://localhost:5000/api/auth/user/avatar");
-    } catch (error) {}
+      const res = axios.post(
+        "http://localhost:5000/api/auth/user/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const { fileName, filePath } = res.data;
+
+      setUploadFile({ fileName, filePath });
+    } catch (error) {
+      if (error.response.status === 500) {
+        console.log("Server Error");
+      } else {
+        console.log("No files uploaded");
+      }
+    }
+
+    nextStep();
   };
 
   const onChangeImage = e => {
     setFile(e.target.files[0]);
-    console.log("click");
   };
 
   return (
@@ -112,13 +132,9 @@ export default function PictureProfile({ nextStep, prevStep }) {
         <Span onClick={forward} className={classes.skip}>
           Skip for now
         </Span>
+        <Button onClick={back}>Back</Button>
+        <Button type="submit">Submit</Button>
       </form>
-      <Button onClick={back} className={classes.button}>
-        Back
-      </Button>
-      <Button type="submit" className={classes.button}>
-        Submit
-      </Button>
     </div>
   );
 }
