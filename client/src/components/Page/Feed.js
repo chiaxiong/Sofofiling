@@ -72,7 +72,7 @@ export default function Feed() {
       .catch(error => {
         console.log(error);
       });
-  }, [!refreshPost]);
+  }, [refreshPost]);
 
   return (
     <div>

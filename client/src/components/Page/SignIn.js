@@ -92,17 +92,6 @@ export default function SignIn() {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/user")
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-
   return (
     <div className={classes.wrapper}>
       <Link to="/" className={classes.link}>
