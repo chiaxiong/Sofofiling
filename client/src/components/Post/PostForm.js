@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { TextField } from "@material-ui/core";
@@ -74,6 +74,8 @@ export default function PostForm({ onPostSubmit }) {
       onPostSubmit(values);
     },
   });
+  const categoryRef = useRef();
+
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -131,7 +133,7 @@ export default function PostForm({ onPostSubmit }) {
               </Grid>
             </Grid>
             <FormControl className={classes.formControl}>
-              <InputLabel>Category</InputLabel>
+              <InputLabel ref={categoryRef}>Category</InputLabel>
               <Select
                 name="category"
                 id="category"
