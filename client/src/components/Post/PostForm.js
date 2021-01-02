@@ -133,7 +133,7 @@ export default function PostForm({ onPostSubmit }) {
               </Grid>
             </Grid>
             <FormControl className={classes.formControl}>
-              <InputLabel ref={categoryRef}>Category</InputLabel>
+              <InputLabel required>Category</InputLabel>
               <Select
                 name="category"
                 id="category"
@@ -141,10 +141,8 @@ export default function PostForm({ onPostSubmit }) {
                 onClose={handleClose}
                 onOpen={handleOpen}
                 value={formik.values.category}
-                onChange={formik.handleChange}>
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
+                onChange={formik.handleChange}
+                inputRef={categoryRef}>
                 <MenuItem value="Art">Art</MenuItem>
                 <MenuItem value="Music">Music</MenuItem>
                 <MenuItem value="Code">Code</MenuItem>

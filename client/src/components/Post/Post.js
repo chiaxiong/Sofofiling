@@ -64,12 +64,14 @@ export default function Post(props) {
               <Avatar className={classes.avatar} />
             </Grid>
             <Grid className={classes.name}>
-              <h4>{/* {props.user.firstName} {props.user.lastName} */}</h4>
+              <h4>
+                {/* {props.user[1].firstName} {props.user[2].lastName} */}
+              </h4>
             </Grid>
           </Grid>
           <Grid item className={classes.postHeader}>
             <h3>
-              <span>Category</span> <span>.</span>
+              <span>{props.category}</span> <span>/</span>
               <span>{props.title}</span>
             </h3>
           </Grid>

@@ -10,6 +10,7 @@ import { navigate } from "@reach/router";
 import axios from "axios";
 import useUser from "../../userContext/useUser";
 import MenuNav from "../MenuItem/MenuNav";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -30,11 +31,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Feed() {
   const classes = useStyles();
-
   const [posts, setPosts] = useState([]);
   const [refreshPost, setRefreshPost] = useState(true);
-
   const { token, user } = useUser();
+  const [filterPost, setFilterPost] = useState([]);
 
   if (!user) navigate("/signin");
 
@@ -67,37 +67,62 @@ export default function Feed() {
       })
       .then(({ data }) => {
         setPosts(data);
-        console.log(data);
+        // for (const n of data) {
+        //   console.log(n);
+        // }
       })
       .catch(error => {
         console.log(error);
       });
   }, [refreshPost]);
 
+  const handleFitlerClick = e => {
+    console.log(e.currentTarget.value);
+    console.log(posts);
+    if (e.currentTarget.value === "Clear") {
+      setFilterPost(posts);
+    } else {
+      setFilterPost(posts);
+    }
+  };
+
   return (
-    <div>
-      <Grid container display="flex">
-        <Grid item className={classes.menu}>
-          <MenuNav />
-        </Grid>
-        <Grid item>
-          <SideBar />
-        </Grid>
-        <Grid>
-          <Grid item>
-            <PostForm onPostSubmit={addPost} />
+    user && (
+      <div>
+        <Grid container display="flex">
+          <Grid item className={classes.menu}>
+            <MenuNav />
           </Grid>
-          <Divider className={classes.divider} />
           <Grid item>
-            {posts.map(post => (
-              <Post key={post._id} {...post} />
-            ))}
+            <SideBar />
+          </Grid>
+          <Grid>
+            <Grid item>
+              <PostForm onPostSubmit={addPost} />
+            </Grid>
+            <Grid>
+              <Button value="Clear" onClick={handleFitlerClick}>
+                Clear
+              </Button>
+              <Button value="New" onClick={handleFitlerClick}>
+                New
+              </Button>
+              <Button value="Category" onClick={handleFitlerClick}>
+                Category
+              </Button>
+            </Grid>
+            <Divider className={classes.divider} />
+            <Grid item>
+              {posts.map(post => (
+                <Post key={post._id} {...post} />
+              ))}
+            </Grid>
+          </Grid>
+          <Grid className={classes.reminder}>
+            <Reminder />
           </Grid>
         </Grid>
-        <Grid className={classes.reminder}>
-          <Reminder />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    )
   );
 }

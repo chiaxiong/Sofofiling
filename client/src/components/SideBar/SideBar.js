@@ -102,11 +102,13 @@ function ResponsiveDrawer(props) {
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
       })
-      .then(({ data }) => setCategoryList(data))
+      .then(({ data }) => {
+        setCategoryList(data);
+      })
       .catch(error => {
         console.log(error);
       });
-  }, [categoryList]);
+  }, [user]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
