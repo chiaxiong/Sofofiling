@@ -3,7 +3,7 @@ import SignIn from "./Page/SignIn";
 import MultistepForm from "./MultistepForm/MultistepForm";
 import Home from "./Home/Home";
 import { Router } from "@reach/router";
-import Feed from "./Page/Feed";
+import Feed from "./Feed/Feed";
 import { UserProvider } from "../userContext/useUser";
 
 function App() {

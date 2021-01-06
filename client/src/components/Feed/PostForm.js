@@ -9,6 +9,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { Switch } from "antd";
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 // import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
@@ -70,10 +72,16 @@ export default function PostForm({ onPostSubmit }) {
       limit: "",
       category: "",
     },
-    onSubmit: values => {
+    onSubmit: (values, { resetForm }) => {
       onPostSubmit(values);
+      resetForm();
     },
   });
+  const [limitToggle, setLimitToggle] = useState(false);
+  const handleToggle = () => {
+    limitToggle ? setLimitToggle(false) : setLimitToggle(true);
+  };
+
   const categoryRef = useRef();
 
   const [open, setOpen] = useState(false);
@@ -123,33 +131,40 @@ export default function PostForm({ onPostSubmit }) {
                   value={formik.values.location}
                   onChange={formik.handleChange}
                 />
-                <input
-                  type="text"
-                  name="limit"
-                  id="limit"
-                  value={formik.values.limit}
-                  onChange={formik.handleChange}
+                <Switch
+                  checkedChildren={"Yes"}
+                  unCheckedChildren={"No"}
+                  onClick={handleToggle}
                 />
+                {limitToggle ? (
+                  <input
+                    type="text"
+                    name="limit"
+                    id="limit"
+                    value={formik.values.limit}
+                    onChange={formik.handleChange}
+                  />
+                ) : null}
+                <FormControl className={classes.formControl}>
+                  <InputLabel required>Category</InputLabel>
+                  <Select
+                    name="category"
+                    id="category"
+                    open={open}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    value={formik.values.category}
+                    onChange={formik.handleChange}
+                    inputRef={categoryRef}>
+                    <MenuItem value="Art">Art</MenuItem>
+                    <MenuItem value="Music">Music</MenuItem>
+                    <MenuItem value="Code">Code</MenuItem>
+                    <MenuItem value="Game">Game</MenuItem>
+                    <MenuItem value="Cooking">Cooking</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
-            <FormControl className={classes.formControl}>
-              <InputLabel required>Category</InputLabel>
-              <Select
-                name="category"
-                id="category"
-                open={open}
-                onClose={handleClose}
-                onOpen={handleOpen}
-                value={formik.values.category}
-                onChange={formik.handleChange}
-                inputRef={categoryRef}>
-                <MenuItem value="Art">Art</MenuItem>
-                <MenuItem value="Music">Music</MenuItem>
-                <MenuItem value="Code">Code</MenuItem>
-                <MenuItem value="Game">Game</MenuItem>
-                <MenuItem value="Cooking">Cooking</MenuItem>
-              </Select>
-            </FormControl>
           </div>
         </div>
         <Button type="submit" onClick={() => onPostSubmit(formik)}>
