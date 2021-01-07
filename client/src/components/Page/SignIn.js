@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -81,7 +81,6 @@ export default function SignIn() {
         "http://localhost:5000/api/auth/signin",
         body
       );
-      console.log(data);
 
       if (data) {
         setToken(data.token);

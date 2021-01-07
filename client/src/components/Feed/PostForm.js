@@ -10,7 +10,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Switch } from "antd";
-import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 // import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
@@ -145,6 +144,7 @@ export default function PostForm({ onPostSubmit }) {
                     onChange={formik.handleChange}
                   />
                 ) : null}
+
                 <FormControl className={classes.formControl}>
                   <InputLabel required>Category</InputLabel>
                   <Select

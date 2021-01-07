@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -95,23 +94,19 @@ function ResponsiveDrawer(props) {
 
   if (!user) navigate("/signin");
 
-  const [categoryList, setCategoryList] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      .then(({ data }) => {
-        setCategoryList(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [user]);
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const getCategory = () => {
+    try {
+      axios.get("http://localhost:5000/api/post/category/:id", {
+        headers: { "x-auth-token": token },
+      });
+      console.log("click");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const drawer = (
@@ -130,7 +125,10 @@ function ResponsiveDrawer(props) {
       <Divider className={classes.divider} />
       <List className={classes.buttonList}>
         {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button key={text} className={classes.myButton}>
+          <Button
+            key={index}
+            className={classes.myButton}
+            onClick={getCategory}>
             <ListItemText primary={text} />
           </Button>
         ))}
@@ -186,13 +184,5 @@ function ResponsiveDrawer(props) {
     </div>
   );
 }
-
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default ResponsiveDrawer;

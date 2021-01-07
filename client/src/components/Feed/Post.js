@@ -55,8 +55,6 @@ export default function Post(props) {
     setValue(event.target.value);
   };
 
-  console.log(props.user);
-
   return (
     <div className={classes.root}>
       <Container className={classes.card}>
