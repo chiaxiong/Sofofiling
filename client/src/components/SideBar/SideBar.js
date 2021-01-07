@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ResponsiveDrawer(props) {
+function ResponsiveDrawer(props, categoryHandler) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -99,16 +99,7 @@ function ResponsiveDrawer(props) {
   };
 
   const getCategory = categoryId => {
-    axios
-      .get(`http://localhost:5000/api/post/category/${categoryId}`, {
-        headers: { "x-auth-token": token },
-      })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    props.categoryHandler(categoryId);
   };
 
   const drawer = (

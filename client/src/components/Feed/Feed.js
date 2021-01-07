@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
-// import Category from "../SideBar/Category";
 import Reminder from "../SideBar/Reminder";
 import Grid from "@material-ui/core/Grid";
 import Post from "./Post";
@@ -36,6 +35,7 @@ export default function Feed() {
   const [refreshPost, setRefreshPost] = useState(true);
   const { token, user } = useUser();
   const [filterPost, setFilterPost] = useState([]);
+  const [category, setCategory] = useState([]);
 
   if (!user) navigate("/signin");
 
@@ -87,6 +87,20 @@ export default function Feed() {
     }
   };
 
+  const getCategory = categoryId => {
+    axios
+      .get(`http://localhost:5000/api/post/category/${categoryId}`, {
+        headers: { "x-auth-token": token },
+      })
+      .then(res => {
+        setCategory(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     user && (
       <div>
@@ -95,7 +109,7 @@ export default function Feed() {
             <MenuNav />
           </Grid>
           <Grid item>
-            <SideBar />
+            <SideBar categoryHandler={getCategory} />
           </Grid>
           <Grid>
             <Grid item>
