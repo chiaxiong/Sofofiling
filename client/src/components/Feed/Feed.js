@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import SideBar from "../SideBar/SideBar";
-import Category from "../SideBar/Category";
+import SideBar from "../SideBar/SideBar";
+// import Category from "../SideBar/Category";
 import Reminder from "../SideBar/Reminder";
 import Grid from "@material-ui/core/Grid";
 import Post from "./Post";
@@ -95,7 +95,7 @@ export default function Feed() {
             <MenuNav />
           </Grid>
           <Grid item>
-            <Category />
+            <SideBar />
           </Grid>
           <Grid>
             <Grid item>

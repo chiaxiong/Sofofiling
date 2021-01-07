@@ -98,15 +98,17 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const getCategory = () => {
-    try {
-      axios.get("http://localhost:5000/api/post/category/:id", {
+  const getCategory = categoryId => {
+    axios
+      .get(`http://localhost:5000/api/post/category/${categoryId}`, {
         headers: { "x-auth-token": token },
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
       });
-      console.log("click");
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const drawer = (
@@ -117,7 +119,10 @@ function ResponsiveDrawer(props) {
       <Typography>Trending Categories</Typography>
       <List className={classes.buttonList}>
         {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button key={index} className={classes.trendingButton}>
+          <Button
+            key={index}
+            className={classes.trendingButton}
+            onClick={() => getCategory(text)}>
             <ListItemText primary={text} />
           </Button>
         ))}
@@ -125,10 +130,7 @@ function ResponsiveDrawer(props) {
       <Divider className={classes.divider} />
       <List className={classes.buttonList}>
         {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button
-            key={index}
-            className={classes.myButton}
-            onClick={getCategory}>
+          <Button key={index} className={classes.myButton}>
             <ListItemText primary={text} />
           </Button>
         ))}
