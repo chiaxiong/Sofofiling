@@ -65,7 +65,9 @@ export default function Post(props) {
             </Grid>
             <Grid className={classes.name}>
               <h4>
-                {/* {props.user[1].firstName} {props.user[2].lastName} */}
+                {"user" in props
+                  ? `${props.user.firstName} ${props.user.lastName}`
+                  : "anoynomous"}
               </h4>
             </Grid>
           </Grid>

@@ -34,8 +34,6 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [refreshPost, setRefreshPost] = useState(true);
   const { token, user } = useUser();
-  const [filterPost, setFilterPost] = useState([]);
-  const [category, setCategory] = useState([]);
 
   if (!user) navigate("/signin");
 
@@ -68,24 +66,11 @@ export default function Feed() {
       })
       .then(({ data }) => {
         setPosts(data);
-        // for (const n of data) {
-        //   console.log(n);
-        // }
       })
       .catch(error => {
         console.log(error);
       });
   }, [refreshPost]);
-
-  const handleFitlerClick = e => {
-    console.log(e.currentTarget.value);
-    console.log(posts);
-    if (e.currentTarget.value === "Clear") {
-      setFilterPost(posts);
-    } else {
-      setFilterPost(posts);
-    }
-  };
 
   const getCategory = categoryId => {
     axios
@@ -93,7 +78,7 @@ export default function Feed() {
         headers: { "x-auth-token": token },
       })
       .then(res => {
-        setCategory(res.data);
+        setPosts(res.data);
         console.log(res.data);
       })
       .catch(err => {
@@ -116,15 +101,9 @@ export default function Feed() {
               <PostForm onPostSubmit={addPost} />
             </Grid>
             <Grid>
-              <Button value="Clear" onClick={handleFitlerClick}>
-                Clear
-              </Button>
-              <Button value="New" onClick={handleFitlerClick}>
-                New
-              </Button>
-              <Button value="Category" onClick={handleFitlerClick}>
-                Category
-              </Button>
+              <Button value="Clear">Clear</Button>
+              <Button value="New">New</Button>
+              <Button value="Category">Category</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>
