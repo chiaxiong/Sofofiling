@@ -72,6 +72,7 @@ export default function Feed() {
       });
   }, [refreshPost]);
 
+  //get categories
   const getCategory = categoryId => {
     axios
       .get(`http://localhost:5000/api/post/category/${categoryId}`, {
@@ -79,7 +80,7 @@ export default function Feed() {
       })
       .then(res => {
         setPosts(res.data);
-        console.log(res.data);
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
@@ -103,7 +104,7 @@ export default function Feed() {
             <Grid>
               <Button value="Clear">Clear</Button>
               <Button value="New">New</Button>
-              <Button value="Category">Category</Button>
+              <Button value="Limit">Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>

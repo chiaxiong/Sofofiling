@@ -65,11 +65,13 @@ export default function PostForm({ onPostSubmit }) {
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
-      title: "",
       content: "",
+      title: "",
       location: "",
-      limit: "",
+      limit: "0",
       category: "",
+      time: "",
+      date: "",
     },
     onSubmit: (values, { resetForm }) => {
       onPostSubmit(values);
@@ -88,7 +90,6 @@ export default function PostForm({ onPostSubmit }) {
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -108,12 +109,15 @@ export default function PostForm({ onPostSubmit }) {
               value={formik.values.content}
               onChange={formik.handleChange}
               className={classes.formField}
+              autoComplete="off"
             />
             <Grid container>
               <Grid item className={classes.inputField}>
                 <label htmlFor="title">TITLE</label>
                 <label htmlFor="location">LOCATION</label>
                 <label htmlFor="limit">LIMIT</label>
+                <label htmlFor="time">TIME</label>
+                <label htmlFor="date">Date</label>
               </Grid>
               <Grid item className={classes.inputField}>
                 <input
@@ -122,6 +126,7 @@ export default function PostForm({ onPostSubmit }) {
                   id="title"
                   value={formik.values.title}
                   onChange={formik.handleChange}
+                  autoComplete="off"
                 />
                 <input
                   type="text"
@@ -129,11 +134,13 @@ export default function PostForm({ onPostSubmit }) {
                   id="location"
                   value={formik.values.location}
                   onChange={formik.handleChange}
+                  autoComplete="off"
                 />
                 <Switch
                   checkedChildren={"Yes"}
                   unCheckedChildren={"No"}
                   onClick={handleToggle}
+                  autoComplete="off"
                 />
                 {limitToggle ? (
                   <input
@@ -142,9 +149,25 @@ export default function PostForm({ onPostSubmit }) {
                     id="limit"
                     value={formik.values.limit}
                     onChange={formik.handleChange}
+                    autoComplete="off"
                   />
                 ) : null}
-
+                <input
+                  type="text"
+                  name="time"
+                  id="time"
+                  value={formik.values.time}
+                  onChange={formik.handleChange}
+                  autoComplete="off"
+                />
+                <input
+                  type="text"
+                  name="date"
+                  id="date"
+                  value={formik.values.date}
+                  onChange={formik.handleChange}
+                  autoComplete="off"
+                />
                 <FormControl className={classes.formControl}>
                   <InputLabel required>Category</InputLabel>
                   <Select

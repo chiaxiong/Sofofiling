@@ -34,12 +34,6 @@ const useStyles = makeStyles(theme => ({
     textAlign: "left",
     marginRight: theme.spacing(4),
   },
-  postHeader: {
-    // position: "relative",
-    // top: "40px",
-    // right: "83px",
-    // display: "inline",
-  },
   card: {
     borderBottom: "1px solid black",
     paddingBottom: "40px",
@@ -87,10 +81,14 @@ export default function Post(props) {
           <Grid item className={classes.formField}>
             <h4>Location:</h4>
             <h4>Limit:</h4>
+            <h4>Time:</h4>
+            <h4>Date:</h4>
           </Grid>
           <Grid item className={classes.formField}>
             <p>{props.location}</p>
             <p>{props.limit}</p>
+            <p>{props.time}</p>
+            <p>{props.date}</p>
           </Grid>
         </Grid>
         <FormControl component="fieldset" className={classes.radioBtn}>

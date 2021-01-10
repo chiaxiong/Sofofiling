@@ -10,9 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
 import useUser from "../../userContext/useUser";
 import { navigate } from "@reach/router";
+import Link from "@material-ui/core/Link";
 
 const drawerWidth = 300;
 
@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ResponsiveDrawer(props, categoryHandler) {
+function ResponsiveDrawer(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -105,7 +105,9 @@ function ResponsiveDrawer(props, categoryHandler) {
   const drawer = (
     <div className={classes.sidebar}>
       <div className={classes.toolbar} />
-      <Typography>Sofofiling</Typography>
+      <Link href="/feed">
+        <Typography>Sofofiling</Typography>
+      </Link>
       <Divider className={classes.divider} />
       <Typography>Trending Categories</Typography>
       <List className={classes.buttonList}>
