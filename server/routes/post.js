@@ -8,21 +8,24 @@ router.use(auth);
 router.post("/", async (req, res) => {
   try {
     const { error } = validate(req.body);
+    console.log(error);
     if (error) return res.status(400).send(error);
+    console.log("Hitting post endpoint");
 
     const newPost = new Post({
-      title: req.body.title,
-      category: req.body.category,
       content: req.body.content,
-      location: req.body.location,
+      title: req.body.title,
       limit: req.body.limit,
+      location: req.body.location,
+      category: req.body.category,
+      service: req.body.service,
       time: req.body.time,
       date: req.body.date,
       user: req.user._id,
     });
 
     await newPost.save();
-
+    console.log(newPost);
     return res.send(newPost);
   } catch (err) {
     console.log(err);

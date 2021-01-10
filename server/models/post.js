@@ -25,6 +25,7 @@ const postSchema = new mongoose.Schema({
   },
   time: { type: String },
   date: { type: String },
+  service: { type: String },
 });
 
 const Post = mongoose.model("Post", postSchema);
@@ -38,7 +39,9 @@ function validatePost(post) {
     time: Joi.string(),
     date: Joi.string(),
     category: Joi.string(),
+    service: Joi.string(),
   });
+  console.log(schema.validate);
   return schema.validate(post);
 }
 
