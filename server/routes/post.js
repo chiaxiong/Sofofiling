@@ -11,13 +11,13 @@ router.post("/", async (req, res) => {
     if (error) return res.status(400).send(error);
 
     const newPost = new Post({
+      title: req.body.title,
+      category: req.body.category,
       content: req.body.content,
       location: req.body.location,
-      title: req.body.title,
       limit: req.body.limit,
       time: req.body.time,
       date: req.body.date,
-      category: req.body.category,
       user: req.user._id,
     });
 

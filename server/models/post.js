@@ -8,19 +8,11 @@ const postSchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  firstName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
-  },
   content: {
     type: String,
-    required: true,
   },
   location: {
     type: String,
-    required: true,
   },
   timestamp: {
     type: Date,
@@ -31,17 +23,21 @@ const postSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  time: String,
-  date: String,
+  time: { type: String },
+  date: { type: String },
 });
 
 const Post = mongoose.model("Post", postSchema);
 
 function validatePost(post) {
   const schema = Joi.object({
-    content: Joi.string().required(),
-    location: Joi.string().required(),
+    content: Joi.string(),
+    location: Joi.string(),
     limit: Joi.number(),
+    title: Joi.string(),
+    time: Joi.string(),
+    date: Joi.string(),
+    category: Joi.string(),
   });
   return schema.validate(post);
 }
