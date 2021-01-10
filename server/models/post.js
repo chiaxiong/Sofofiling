@@ -22,11 +22,17 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
+  timestamp: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   limit: Number,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  time: String,
+  date: String,
 });
 
 const Post = mongoose.model("Post", postSchema);

@@ -13,6 +13,12 @@ router.post("/", async (req, res) => {
     const newPost = new Post({
       content: req.body.content,
       location: req.body.location,
+      title: req.body.title,
+      limit: req.body.limit,
+      time: req.body.time,
+      date: req.body.date,
+      category: req.body.category,
+      user: req.user._id,
     });
 
     await newPost.save();
@@ -26,7 +32,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("user");
     return res.send(posts);
   } catch (err) {
     return res.status(500).send(`Server Error: ${err}`);
@@ -81,6 +87,18 @@ router.delete("/:id", async (req, res) => {
     return res.send(post);
   } catch (err) {
     return res.status(500).send(`Internal Server Error: ${err}`);
+  }
+});
+
+router.get("/category/:category", async (req, res) => {
+  try {
+    const posts = await Post.find({ category: req.params.category }).populate(
+      "user"
+    );
+    console.log("Hitting", req.params.category);
+    return res.send(posts);
+  } catch (error) {
+    return res.status(500).send(`Server error: ${error}`);
   }
 });
 
