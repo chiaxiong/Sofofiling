@@ -64,6 +64,9 @@ export default function Post(props) {
                   : "anoynomous"}
               </h4>
             </Grid>
+            <Grid>
+              <h4>{props.service}</h4>
+            </Grid>
           </Grid>
           <Grid item className={classes.postHeader}>
             <h3>

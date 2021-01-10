@@ -38,22 +38,25 @@ export default function Feed() {
   if (!user) navigate("/signin");
 
   //add new post
-  const addPost = async content => {
+  const addPost = async form => {
     await axios
       .post(
         "http://localhost:5000/api/post",
         {
-          content: content.content,
-          title: content.title,
-          limit: parseInt(content.limit),
-          location: content.location,
-          category: content.category,
+          content: form.content,
+          title: form.title,
+          limit: parseInt(form.limit),
+          location: form.location,
+          category: form.category,
+          service: form.service,
+          time: form.time,
+          date: form.date,
         },
         { headers: { "x-auth-token": token } }
       )
-      .then(res => {
+      .then(() => {
         setRefreshPost(!refreshPost);
-        console.log(res);
+        console.log("post added");
       })
       .catch(er => console.warn(er));
   };

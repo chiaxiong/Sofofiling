@@ -61,41 +61,34 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PostForm({ onPostSubmit }) {
+export default function Form({ onPostSubmit }) {
   const classes = useStyles();
-  const formik = useFormik({
-    initialValues: {
-      content: "",
-      location: "",
-      limit: "0",
-      title: "",
-      time: "",
-      date: "",
-      category: "",
-      service: "",
-    },
-    onSubmit: (values, { resetForm }) => {
-      onPostSubmit(values);
-      resetForm();
-    },
+  const [form, setForm] = useState({
+    content: "",
+    location: "",
+    limit: "0",
+    title: "",
+    time: "",
+    date: "",
+    category: "",
+    service: "",
   });
+
+  const handleForm = e => {
+    e.preventDefault();
+    setForm(form => ({ ...form, [e.target.name]: e.target.value }));
+    console.log(e.target.value);
+    console.log(form);
+  };
+
   const [limitToggle, setLimitToggle] = useState(false);
   const handleToggle = () => {
     limitToggle ? setLimitToggle(false) : setLimitToggle(true);
   };
 
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   return (
     <div className={classes.root}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={onPostSubmit}>
         <div>
           <div className={classes.cardHeader}>
             <Avatar className={classes.avatar} />
@@ -105,14 +98,13 @@ export default function PostForm({ onPostSubmit }) {
               type="text"
               name="content"
               id="content"
-              value={formik.values.content}
-              onChange={formik.handleChange}
+              value={form.content}
+              onChange={handleForm}
               className={classes.formField}
               autoComplete="off"
             />
             <Grid container>
               <Grid item className={classes.inputField}>
-                <label htmlFor="service">SERVICE</label>
                 <label htmlFor="title">TITLE</label>
                 <label htmlFor="location">LOCATION</label>
                 <label htmlFor="limit">LIMIT</label>
@@ -123,8 +115,8 @@ export default function PostForm({ onPostSubmit }) {
                 <select
                   name="service"
                   id="service"
-                  value={formik.values.service}
-                  onChange={formik.handleChange}>
+                  value={form.service}
+                  onChange={handleForm}>
                   <option value="none" selected hidden>
                     --select service--
                   </option>
@@ -136,16 +128,16 @@ export default function PostForm({ onPostSubmit }) {
                   type="text"
                   name="title"
                   id="title"
-                  value={formik.values.title}
-                  onChange={formik.handleChange}
+                  value={form.title}
+                  onChange={handleForm}
                   autoComplete="off"
                 />
                 <input
                   type="text"
                   name="location"
                   id="location"
-                  value={formik.values.location}
-                  onChange={formik.handleChange}
+                  value={form.location}
+                  onChange={handleForm}
                   autoComplete="off"
                 />
                 <Switch
@@ -159,8 +151,8 @@ export default function PostForm({ onPostSubmit }) {
                     type="text"
                     name="limit"
                     id="limit"
-                    value={formik.values.limit}
-                    onChange={formik.handleChange}
+                    value={form.limit}
+                    onChange={handleForm}
                     autoComplete="off"
                   />
                 ) : null}
@@ -168,41 +160,26 @@ export default function PostForm({ onPostSubmit }) {
                   type="text"
                   name="time"
                   id="time"
-                  value={formik.values.time}
-                  onChange={formik.handleChange}
+                  value={form.time}
+                  onChange={handleForm}
                   autoComplete="off"
                 />
                 <input
                   type="text"
                   name="date"
                   id="date"
-                  value={formik.values.date}
-                  onChange={formik.handleChange}
+                  value={form.date}
+                  onChange={handleForm}
                   autoComplete="off"
                 />
-                {/* <FormControl className={classes.formControl}>
-                  <InputLabel required>Category</InputLabel>
-                  <Select
-                    name="category"
-                    id="category"
-                    open={open}
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    value={formik.values.category}
-                    onChange={formik.handleChange}>
-                    <MenuItem value="Art">Art</MenuItem>
-                    <MenuItem value="Music">Music</MenuItem>
-                    <MenuItem value="Code">Code</MenuItem>
-                    <MenuItem value="Game">Game</MenuItem>
-                    <MenuItem value="Cooking">Cooking</MenuItem>
-                  </Select>
-                </FormControl> */}
-
                 <select
                   name="category"
                   id="category"
-                  value={formik.values.category}
-                  onChange={formik.handleChange}>
+                  value={form.category}
+                  onChange={handleForm}>
+                  <option value="none" selected hidden>
+                    Category
+                  </option>
                   <option value="Art">Art</option>
                   <option value="Music">Music</option>
                   <option value="Code">Code</option>
@@ -213,9 +190,7 @@ export default function PostForm({ onPostSubmit }) {
             </Grid>
           </div>
         </div>
-        <Button type="submit" onClick={() => onPostSubmit(formik)}>
-          Post
-        </Button>
+        <Button type="submit">Post</Button>
       </form>
     </div>
   );
