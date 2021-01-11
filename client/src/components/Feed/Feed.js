@@ -101,7 +101,7 @@ export default function Feed() {
           </Grid>
           <Grid>
             <Grid item>
-              <PostForm onPostSubmit={addPost} />
+              <PostForm onPostSubmit={addPost} {...posts} />
             </Grid>
             <Grid>
               <Button value="Clear">Clear</Button>

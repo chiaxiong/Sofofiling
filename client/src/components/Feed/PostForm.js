@@ -3,13 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { useFormik, Field } from "formik";
+import { useFormik } from "formik";
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import { Switch } from "antd";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,25 +37,35 @@ const useStyles = makeStyles(theme => ({
     marginTop: "30px",
   },
   texbox: {
-    minWidth: "700px",
-    position: "relative",
-    bottom: "45px",
+    minWidth: "650px",
+    marginTop: "20px",
   },
   radioBtn: {
     display: "flex",
     direction: "row",
   },
-  inputField: {
+  form: {
     display: "flex",
     flexDirection: "column",
     textAlign: "left",
     marginRight: "50px",
-    border: "1px solid",
     fontWeight: "bold",
   },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+  },
+  label: {
+    marginTop: "10px",
+  },
+  input: {
+    marginTop: "10px",
+    border: "none",
+    borderBottom: "1px solid",
+    input: "outline: none",
+  },
+  divider: {
+    marginTop: theme.spacing(6),
   },
 }));
 
@@ -81,121 +87,164 @@ export default function PostForm({ onPostSubmit }) {
       resetForm();
     },
   });
+
+  const [radio, setRadio] = useState("no");
+
   const [limitToggle, setLimitToggle] = useState(false);
-  const handleToggle = () => {
-    limitToggle ? setLimitToggle(false) : setLimitToggle(true);
+
+  const handleOpen = () => {
+    setLimitToggle(true);
+  };
+  const handleClose = () => {
+    setLimitToggle(false);
   };
 
   return (
     <div className={classes.root}>
       <form onSubmit={formik.handleSubmit}>
-        <div>
-          <div className={classes.cardHeader}>
-            <Avatar className={classes.avatar} />
-          </div>
-          <div>
-            <Grid>
-              <TextField
-                type="text"
-                name="content"
-                id="content"
-                value={formik.values.content}
-                onChange={formik.handleChange}
-                className={classes.texbox}
-                autoComplete="off"
-                placeholder="How are you doing?"
-                multiline
-                rows="5"
-              />
-            </Grid>
-            <Grid container>
-              <Grid item className={classes.inputField}>
-                <label htmlFor="service">SERVICE</label>
-                <label htmlFor="title">TITLE</label>
-                <label htmlFor="location">LOCATION</label>
-                <label htmlFor="limit">LIMIT</label>
-                <label htmlFor="time">TIME</label>
-                <label htmlFor="date">Date</label>
-              </Grid>
-              <Grid item className={classes.inputField}>
-                <select
-                  name="service"
-                  id="service"
-                  value={formik.values.service}
-                  onChange={formik.handleChange}>
-                  <option value="none" selected hidden>
-                    --select service--
-                  </option>
-                  <option value="Looking For">Looking For</option>
-                  <option value="Providing Service">Providing Service</option>
-                </select>
+        <Grid className={classes.cardHeader}>
+          <Avatar className={classes.avatar} />
+        </Grid>
+        <Grid container>
+          <Grid item className={classes.form}>
+            <label htmlFor="service" className={classes.label}>
+              SERVICE
+            </label>
+            <select
+              name="service"
+              id="service"
+              value={formik.values.service}
+              onChange={formik.handleChange}
+              className={classes.input}>
+              <option value="none" selected hidden>
+                --select service--
+              </option>
+              <option value="Looking For">Looking For</option>
+              <option value="Providing Service">Providing Service</option>
+            </select>
+            <label htmlFor="title" className={classes.label}>
+              TITLE
+            </label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              autoComplete="off"
+              className={classes.input}
+            />
+            <label htmlFor="location" className={classes.label}>
+              LOCATION
+            </label>
+            <input
+              type="text"
+              name="location"
+              id="location"
+              value={formik.values.location}
+              onChange={formik.handleChange}
+              autoComplete="off"
+              className={classes.input}
+            />
+          </Grid>
 
+          <Grid item className={classes.form}>
+            <label htmlFor="limit" className={classes.label}>
+              LIMIT
+            </label>
+            <Grid container>
+              <Grid item>
+                <label htmlFor="yes">Yes</label>
                 <input
-                  type="text"
-                  name="title"
-                  id="title"
-                  value={formik.values.title}
-                  onChange={formik.handleChange}
-                  autoComplete="off"
+                  type="radio"
+                  id="yes"
+                  name="yes"
+                  value="yes"
+                  checked={radio === "yes"}
+                  onClick={handleOpen}
+                  onChange={() => setRadio("yes")}
                 />
+              </Grid>
+              <Grid>
+                <label htmlFor="no">No</label>
                 <input
-                  type="text"
-                  name="location"
-                  id="location"
-                  value={formik.values.location}
-                  onChange={formik.handleChange}
-                  autoComplete="off"
+                  type="radio"
+                  id="no"
+                  name="no"
+                  value="no"
+                  checked={radio === "no"}
+                  onClick={handleClose}
+                  onChange={() => setRadio("no")}
                 />
-                <Switch
-                  checkedChildren={"Yes"}
-                  unCheckedChildren={"No"}
-                  onClick={handleToggle}
-                  autoComplete="off"
-                />
-                {limitToggle && (
-                  <input
-                    type="text"
-                    name="limit"
-                    id="limit"
-                    value={formik.values.limit}
-                    onChange={formik.handleChange}
-                    autoComplete="off"
-                  />
-                )}
-                <input
-                  type="text"
-                  name="time"
-                  id="time"
-                  value={formik.values.time}
-                  onChange={formik.handleChange}
-                  autoComplete="off"
-                />
-                <input
-                  type="text"
-                  name="date"
-                  id="date"
-                  value={formik.values.date}
-                  onChange={formik.handleChange}
-                  autoComplete="off"
-                />
-                <select
-                  name="category"
-                  id="category"
-                  value={formik.values.category}
-                  onChange={formik.handleChange}>
-                  <option value="none" selected hidden>
-                    Category
-                  </option>
-                  <option value="Art">Art</option>
-                  <option value="Music">Music</option>
-                  <option value="Code">Code</option>
-                  <option value="Game">Game</option>
-                  <option value="Cooking">Cooking</option>
-                </select>
               </Grid>
             </Grid>
-          </div>
-        </div>
+            {limitToggle && (
+              <input
+                type="text"
+                name="limit"
+                id="limit"
+                value={formik.values.limit}
+                onChange={formik.handleChange}
+                autoComplete="off"
+                className={classes.input}
+              />
+            )}
+
+            <label htmlFor="time" className={classes.label}>
+              TIME
+            </label>
+            <input
+              type="text"
+              name="time"
+              id="time"
+              value={formik.values.time}
+              onChange={formik.handleChange}
+              autoComplete="off"
+              className={classes.input}
+            />
+            <label htmlFor="date" className={classes.label}>
+              Date
+            </label>
+            <input
+              type="text"
+              name="date"
+              id="date"
+              value={formik.values.date}
+              onChange={formik.handleChange}
+              autoComplete="off"
+              className={classes.input}
+            />
+            <select
+              name="category"
+              id="category"
+              value={formik.values.category}
+              onChange={formik.handleChange}>
+              <option value="none" selected hidden>
+                Category
+              </option>
+              <option value="Art">Art</option>
+              <option value="Music">Music</option>
+              <option value="Code">Code</option>
+              <option value="Game">Game</option>
+              <option value="Cooking">Cooking</option>
+            </select>
+          </Grid>
+        </Grid>
+        <Divider className={classes.divider} />
+        <Grid>
+          <TextField
+            type="text"
+            name="content"
+            id="content"
+            value={formik.values.content}
+            onChange={formik.handleChange}
+            className={classes.texbox}
+            autoComplete="off"
+            placeholder="How are you doing?"
+            multiline
+            rows="5"
+          />
+        </Grid>
         <Button type="submit" onClick={() => onPostSubmit(formik)}>
           Post
         </Button>
