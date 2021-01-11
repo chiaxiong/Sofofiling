@@ -56,7 +56,6 @@ export default function Feed() {
       )
       .then(() => {
         setRefreshPost(!refreshPost);
-        console.log("post added");
       })
       .catch(er => console.warn(er));
   };

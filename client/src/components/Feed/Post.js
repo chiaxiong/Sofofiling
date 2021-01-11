@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Radio from "@material-ui/core/Radio";
@@ -8,7 +8,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import userUser from "../../userContext/useUser";
-import { CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,20 +56,20 @@ const useStyles = makeStyles(theme => ({
     textAlign: "left",
     marginLeft: theme.spacing(11),
   },
+  delete: {},
 }));
 
 export default function Post(props) {
   const classes = useStyles();
   const { user } = userUser();
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("");
 
   const handleChange = event => {
     setValue(event.target.value);
   };
 
   const isUser = (user._id = props.user);
-  console.log(isUser);
 
   const listInfo = ["LOCATION:", "LIMIT:", "TIME:", "DATE:"];
   const { location, limit, time, date } = props;
@@ -106,13 +105,13 @@ export default function Post(props) {
             <Grid item>
               {listInfo.map(listItem => (
                 <ul className={classes.list}>
-                  <li>{listItem}</li>
+                  <li key={listItem}>{listItem}</li>
                 </ul>
               ))}
             </Grid>
             <Grid item className={classes.formValue}>
               {listValue.map(listOutput => (
-                <p>{listOutput}</p>
+                <p key={listOutput}>{listOutput}</p>
               ))}
             </Grid>
           </Grid>

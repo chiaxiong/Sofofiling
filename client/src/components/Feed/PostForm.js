@@ -1,22 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { useFormik } from "formik";
+import { useFormik, Field } from "formik";
 import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import { Switch } from "antd";
-// import moment from "moment";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     dispaly: "flex",
-    backgroundColor: "#eee",
     marginLeft: "30px",
   },
   media: {
@@ -42,8 +40,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.5em",
     marginTop: "30px",
   },
-  formField: {
-    width: "100%",
+  texbox: {
+    minWidth: "700px",
+    position: "relative",
+    bottom: "45px",
   },
   radioBtn: {
     display: "flex",
@@ -54,6 +54,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     textAlign: "left",
     marginRight: "50px",
+    border: "1px solid",
+    fontWeight: "bold",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -84,15 +86,6 @@ export default function PostForm({ onPostSubmit }) {
     limitToggle ? setLimitToggle(false) : setLimitToggle(true);
   };
 
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   return (
     <div className={classes.root}>
       <form onSubmit={formik.handleSubmit}>
@@ -101,15 +94,20 @@ export default function PostForm({ onPostSubmit }) {
             <Avatar className={classes.avatar} />
           </div>
           <div>
-            <TextField
-              type="text"
-              name="content"
-              id="content"
-              value={formik.values.content}
-              onChange={formik.handleChange}
-              className={classes.formField}
-              autoComplete="off"
-            />
+            <Grid>
+              <TextField
+                type="text"
+                name="content"
+                id="content"
+                value={formik.values.content}
+                onChange={formik.handleChange}
+                className={classes.texbox}
+                autoComplete="off"
+                placeholder="How are you doing?"
+                multiline
+                rows="5"
+              />
+            </Grid>
             <Grid container>
               <Grid item className={classes.inputField}>
                 <label htmlFor="service">SERVICE</label>
@@ -154,7 +152,7 @@ export default function PostForm({ onPostSubmit }) {
                   onClick={handleToggle}
                   autoComplete="off"
                 />
-                {limitToggle ? (
+                {limitToggle && (
                   <input
                     type="text"
                     name="limit"
@@ -163,7 +161,7 @@ export default function PostForm({ onPostSubmit }) {
                     onChange={formik.handleChange}
                     autoComplete="off"
                   />
-                ) : null}
+                )}
                 <input
                   type="text"
                   name="time"
