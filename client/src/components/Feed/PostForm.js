@@ -5,7 +5,6 @@ import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useFormik } from "formik";
 import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,6 +38,9 @@ const useStyles = makeStyles(theme => ({
   texbox: {
     minWidth: "650px",
     marginTop: "20px",
+    position: "relative",
+    bottom: "70px",
+    right: "20px",
   },
   radioBtn: {
     display: "flex",
@@ -49,7 +51,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     textAlign: "left",
     marginRight: "50px",
-    fontWeight: "bold",
+    position: "relative",
+    left: "120px",
+    bottom: "50px",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -57,15 +61,12 @@ const useStyles = makeStyles(theme => ({
   },
   label: {
     marginTop: "10px",
+    fontWeight: "bold",
   },
   input: {
     marginTop: "10px",
     border: "none",
     borderBottom: "1px solid",
-    input: "outline: none",
-  },
-  divider: {
-    marginTop: theme.spacing(6),
   },
 }));
 
@@ -104,6 +105,20 @@ export default function PostForm({ onPostSubmit }) {
       <form onSubmit={formik.handleSubmit}>
         <Grid className={classes.cardHeader}>
           <Avatar className={classes.avatar} />
+        </Grid>
+        <Grid>
+          <TextField
+            type="text"
+            name="content"
+            id="content"
+            value={formik.values.content}
+            onChange={formik.handleChange}
+            className={classes.texbox}
+            autoComplete="off"
+            placeholder="How are you doing?"
+            multiline
+            rows="5"
+          />
         </Grid>
         <Grid container>
           <Grid item className={classes.form}>
@@ -177,18 +192,25 @@ export default function PostForm({ onPostSubmit }) {
                   onChange={() => setRadio("no")}
                 />
               </Grid>
+              <Grid>
+                {limitToggle && (
+                  <input
+                    type="text"
+                    name="limit"
+                    id="limit"
+                    value={formik.values.limit}
+                    onChange={formik.handleChange}
+                    autoComplete="off"
+                    style={{
+                      border: "none",
+                      borderBottom: "1px solid",
+                      marginLeft: "10px",
+                      width: "45px",
+                    }}
+                  />
+                )}
+              </Grid>
             </Grid>
-            {limitToggle && (
-              <input
-                type="text"
-                name="limit"
-                id="limit"
-                value={formik.values.limit}
-                onChange={formik.handleChange}
-                autoComplete="off"
-                className={classes.input}
-              />
-            )}
 
             <label htmlFor="time" className={classes.label}>
               TIME
@@ -214,11 +236,17 @@ export default function PostForm({ onPostSubmit }) {
               autoComplete="off"
               className={classes.input}
             />
+            <label className={classes.label}>Category</label>
             <select
               name="category"
               id="category"
               value={formik.values.category}
-              onChange={formik.handleChange}>
+              onChange={formik.handleChange}
+              style={{
+                marginTop: "10px",
+                borderBottom: "1px solid black",
+                border: "none",
+              }}>
               <option value="none" selected hidden>
                 Category
               </option>
@@ -229,21 +257,6 @@ export default function PostForm({ onPostSubmit }) {
               <option value="Cooking">Cooking</option>
             </select>
           </Grid>
-        </Grid>
-        <Divider className={classes.divider} />
-        <Grid>
-          <TextField
-            type="text"
-            name="content"
-            id="content"
-            value={formik.values.content}
-            onChange={formik.handleChange}
-            className={classes.texbox}
-            autoComplete="off"
-            placeholder="How are you doing?"
-            multiline
-            rows="5"
-          />
         </Grid>
         <Button type="submit" onClick={() => onPostSubmit(formik)}>
           Post

@@ -69,8 +69,6 @@ export default function Post(props) {
     setValue(event.target.value);
   };
 
-  const isUser = (user._id = props.user);
-
   const listInfo = ["LOCATION:", "LIMIT:", "TIME:", "DATE:"];
   const { location, limit, time, date } = props;
   const listValue = [location, limit, time, date];
@@ -103,15 +101,15 @@ export default function Post(props) {
           </Grid>
           <Grid container>
             <Grid item>
-              {listInfo.map(listItem => (
+              {listInfo.map((listItem, index) => (
                 <ul className={classes.list}>
-                  <li key={listItem}>{listItem}</li>
+                  <li key={index}>{listItem}</li>
                 </ul>
               ))}
             </Grid>
             <Grid item className={classes.formValue}>
-              {listValue.map(listOutput => (
-                <p key={listOutput}>{listOutput}</p>
+              {listValue.map((listOutput, index) => (
+                <p key={index}>{listOutput}</p>
               ))}
             </Grid>
           </Grid>
