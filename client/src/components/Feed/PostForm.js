@@ -180,29 +180,14 @@ export default function PostForm({ onPostSubmit }) {
                   onChange={formik.handleChange}
                   autoComplete="off"
                 />
-                {/* <FormControl className={classes.formControl}>
-                  <InputLabel required>Category</InputLabel>
-                  <Select
-                    name="category"
-                    id="category"
-                    open={open}
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    value={formik.values.category}
-                    onChange={formik.handleChange}>
-                    <MenuItem value="Art">Art</MenuItem>
-                    <MenuItem value="Music">Music</MenuItem>
-                    <MenuItem value="Code">Code</MenuItem>
-                    <MenuItem value="Game">Game</MenuItem>
-                    <MenuItem value="Cooking">Cooking</MenuItem>
-                  </Select>
-                </FormControl> */}
-
                 <select
                   name="category"
                   id="category"
                   value={formik.values.category}
                   onChange={formik.handleChange}>
+                  <option value="none" selected hidden>
+                    Category
+                  </option>
                   <option value="Art">Art</option>
                   <option value="Music">Music</option>
                   <option value="Code">Code</option>

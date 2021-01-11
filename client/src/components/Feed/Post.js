@@ -7,6 +7,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
+import userUser from "../../userContext/useUser";
+import { CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,8 +16,10 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     marginLeft: "30px",
   },
-  cardHeader: {
-    flexDirection: "column",
+  header: {
+    textAlign: "left",
+    padding: "0px",
+    margin: "0px",
   },
   avatar: {
     margin: theme.spacing(4, 0, 0, 4),
@@ -23,25 +27,41 @@ const useStyles = makeStyles(theme => ({
     height: "50px",
     backgroundColor: "#F5AB7C",
   },
-  name: {
-    padding: "0",
-    marginLeft: "20px",
-    marginTop: "14px",
-  },
-  formField: {
-    display: "flex",
-    flexDirection: "column",
+  list: {
+    listStyleType: "none",
     textAlign: "left",
-    marginRight: theme.spacing(4),
+    fontWeight: "bold",
+    marginRight: theme.spacing(5),
+    marginLeft: theme.spacing(6),
+  },
+  formValue: {
+    textAlign: "left",
+    // marginLeft: theme.spacing(11),
   },
   card: {
-    borderBottom: "1px solid black",
+    borderTop: "1px solid black",
     paddingBottom: "40px",
+  },
+  service: {
+    color: "red",
+    fontSize: ".8em",
+    marginLeft: "10px",
+  },
+  name: {
+    margin: "0px",
+    position: "relative",
+    top: "35px",
+    left: "5px",
+  },
+  postBody: {
+    textAlign: "left",
+    marginLeft: theme.spacing(11),
   },
 }));
 
 export default function Post(props) {
   const classes = useStyles();
+  const { user } = userUser();
 
   const [value, setValue] = React.useState("");
 
@@ -49,51 +69,55 @@ export default function Post(props) {
     setValue(event.target.value);
   };
 
+  const isUser = (user._id = props.user);
+  console.log(isUser);
+
+  const listInfo = ["LOCATION:", "LIMIT:", "TIME:", "DATE:"];
+  const { location, limit, time, date } = props;
+  const listValue = [location, limit, time, date];
+
   return (
     <div className={classes.root}>
       <Container className={classes.card}>
-        <Grid container className={classes.cardHeader}>
-          <Grid container>
-            <Grid item>
-              <Avatar className={classes.avatar} />
-            </Grid>
-            <Grid className={classes.name}>
-              <h4>
-                {"user" in props
-                  ? `${props.user.firstName} ${props.user.lastName}`
-                  : "anoynomous"}
-              </h4>
-            </Grid>
-            <Grid>
-              <h4>{props.service}</h4>
-            </Grid>
+        <Grid container direction="row">
+          <Grid item>
+            <Avatar className={classes.avatar} />
           </Grid>
-          <Grid item className={classes.postHeader}>
-            <h3>
-              <span>{props.category}</span> <span>/</span>
-              <span>{props.title}</span>
+          <Grid item className={classes.header}>
+            <h3 className={classes.name}>
+              {"user" in props
+                ? `${props.user.firstName} ${props.user.lastName}`
+                : "anoynomous"}
+              <span className={classes.service}>{props.service}</span>
+            </h3>
+            <h3 className={classes.name}>
+              <span>{props.category}</span>{" "}
+              <span style={{ color: "#F5AB7C" }}>||</span>
+              <span style={{ paddingLeft: "5px" }}>{props.title}</span>
             </h3>
           </Grid>
         </Grid>
 
-        <Grid>
-          <p>{props.content}</p>
+        <Grid container>
+          <Grid item className={classes.postBody}>
+            <p>{props.content}</p>
+          </Grid>
+          <Grid container>
+            <Grid item>
+              {listInfo.map(listItem => (
+                <ul className={classes.list}>
+                  <li>{listItem}</li>
+                </ul>
+              ))}
+            </Grid>
+            <Grid item className={classes.formValue}>
+              {listValue.map(listOutput => (
+                <p>{listOutput}</p>
+              ))}
+            </Grid>
+          </Grid>
         </Grid>
 
-        <Grid container>
-          <Grid item className={classes.formField}>
-            <h4>Location:</h4>
-            <h4>Limit:</h4>
-            <h4>Time:</h4>
-            <h4>Date:</h4>
-          </Grid>
-          <Grid item className={classes.formField}>
-            <p>{props.location}</p>
-            <p>{props.limit}</p>
-            <p>{props.time}</p>
-            <p>{props.date}</p>
-          </Grid>
-        </Grid>
         <FormControl component="fieldset" className={classes.radioBtn}>
           <RadioGroup value={value} onChange={handleChange}>
             <FormControlLabel
