@@ -117,7 +117,7 @@ export default function Form({ onPostSubmit }) {
                   id="service"
                   value={form.service}
                   onChange={handleForm}>
-                  <option value="none" selected hidden>
+                  <option value="none" hidden>
                     --select service--
                   </option>
                   <option value="Looking For">Looking For</option>
@@ -177,7 +177,7 @@ export default function Form({ onPostSubmit }) {
                   id="category"
                   value={form.category}
                   onChange={handleForm}>
-                  <option value="none" selected hidden>
+                  <option value="none" hidden>
                     Category
                   </option>
                   <option value="Art">Art</option>

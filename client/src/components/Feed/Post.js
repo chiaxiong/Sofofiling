@@ -61,7 +61,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Post(props) {
   const classes = useStyles();
-  const { user } = userUser();
 
   const [value, setValue] = useState("");
 
@@ -102,8 +101,8 @@ export default function Post(props) {
           <Grid container>
             <Grid item>
               {listInfo.map((listItem, index) => (
-                <ul className={classes.list}>
-                  <li key={index}>{listItem}</li>
+                <ul className={classes.list} key={index}>
+                  <li>{listItem}</li>
                 </ul>
               ))}
             </Grid>

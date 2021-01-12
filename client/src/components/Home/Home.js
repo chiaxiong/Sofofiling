@@ -40,18 +40,18 @@ export default function Home() {
             </Typography>
           </IconButton>
           <Grid container display="flex" direction="row-reverse">
-            <Link to="signin" className={classes.link}>
+            <Link to="/signin" className={classes.link}>
               <Button color="inherit" className={classes.button}>
                 Sign In
               </Button>
             </Link>
-            <Link to="signup" className={classes.link}>
+            <Link to="/signup" className={classes.link}>
               <Button className={classes.button}>Sign Up</Button>
             </Link>
           </Grid>
         </Toolbar>
       </AppBar>
-      <Link to="feed">
+      <Link to="/feed">
         <Button>Feed</Button>
       </Link>
     </div>

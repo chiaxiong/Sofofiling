@@ -131,7 +131,7 @@ export default function PostForm({ onPostSubmit }) {
               value={formik.values.service}
               onChange={formik.handleChange}
               className={classes.input}>
-              <option value="none" selected hidden>
+              <option value="none" hidden>
                 --select service--
               </option>
               <option value="Looking For">Looking For</option>
@@ -247,7 +247,7 @@ export default function PostForm({ onPostSubmit }) {
                 borderBottom: "1px solid black",
                 border: "none",
               }}>
-              <option value="none" selected hidden>
+              <option value="none" hidden>
                 Category
               </option>
               <option value="Art">Art</option>

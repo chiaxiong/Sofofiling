@@ -7,7 +7,7 @@ export default function DateSelect({ defaultValue, onDateChange }) {
   return (
     <div>
       <DatePicker
-        selected={selectDate}
+        // selected={selectDate}
         onChange={date => setSelectDate(date)}
         minDate={new Date()}
         isClearable
