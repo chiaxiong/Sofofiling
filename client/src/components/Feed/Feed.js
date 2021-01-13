@@ -68,6 +68,7 @@ export default function Feed() {
       })
       .then(({ data }) => {
         setPosts(data);
+        console.log(data);
       })
       .catch(error => {
         console.log(error);

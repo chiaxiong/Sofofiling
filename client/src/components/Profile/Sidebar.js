@@ -5,7 +5,11 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "@reach/router/";
 
-export default function Sidebar() {
+export default function Sidebar({ post }) {
+  const profilePost = () => {
+    post();
+  };
+
   return (
     <Grid container>
       <Grid item>
@@ -16,10 +20,10 @@ export default function Sidebar() {
       <Grid item>
         <Avatar />
       </Grid>
-      <Grid>
-        {/* <MenuItem>My Post</MenuItem>
-        <MenuItem>Attending Post</MenuItem> */}
-      </Grid>
+      {/* <Grid>
+        <MenuItem onClick={profilePost(1)}>My Post</MenuItem>
+        <MenuItem onClick={profilePost(0)}>Attending Post</MenuItem>
+      </Grid> */}
     </Grid>
   );
 }
