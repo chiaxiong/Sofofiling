@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 export default function Feed() {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
+  const [fitler, setFilter] = useState(null);
   const [refreshPost, setRefreshPost] = useState(true);
   const { token, user } = useUser();
 
@@ -87,6 +88,17 @@ export default function Feed() {
       })
       .catch(err => {
         console.log(err);
+      });
+  };
+
+  const fitlerPost = () => {
+    axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      .then(({ data }) => {
+        setPosts(data);
+        setFilter(data.filter());
       });
   };
 
