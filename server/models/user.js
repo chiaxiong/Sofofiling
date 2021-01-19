@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const { postSchema } = require("./post");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 
@@ -34,6 +33,7 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Posts",
   },
+  subscriptions: [String],
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -59,6 +59,15 @@ function validateUser(user) {
   });
   return schema.validate(user);
 }
+
+function validateCategory(subBody) {
+  const schema = Joi.object({
+    subscription: Joi.string().required(),
+  });
+  return schema.validate(subBody);
+}
+
 exports.User = User;
+exports.validateSubscription = validateCategory;
 exports.validate = validateUser;
 exports.userSchema = userSchema;
