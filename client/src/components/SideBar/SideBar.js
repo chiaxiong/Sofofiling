@@ -1,18 +1,21 @@
-import React from "react";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItemText from "@material-ui/core/ListItemText";
+import React, { useState } from "react";
+import {
+  Grid,
+  Divider,
+  Typography,
+  Button,
+  ListItemText,
+  List,
+  IconButton,
+  Hidden,
+  Drawer,
+  Link,
+} from "@material-ui/core/";
 import MenuIcon from "@material-ui/icons/Menu";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import useUser from "../../userContext/useUser";
 import { navigate } from "@reach/router";
-import Link from "@material-ui/core/Link";
+import SubCategory from "./SubCategory";
 
 const drawerWidth = 300;
 
@@ -88,9 +91,10 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
-  const { token, user } = useUser();
+  const { user } = useUser();
 
   if (!user) navigate("/signin");
 
@@ -102,6 +106,12 @@ function ResponsiveDrawer(props) {
     props.categoryHandler(categoryId);
   };
 
+  const subscribeToggle = () => {
+    isSubscribed ? setIsSubscribed(false) : setIsSubscribed(true);
+  };
+
+  const categoryList = ["Art", "Music", "Code", "Game", "Cooking"];
+
   const drawer = (
     <div className={classes.sidebar}>
       <div className={classes.toolbar} />
@@ -111,23 +121,21 @@ function ResponsiveDrawer(props) {
       <Divider className={classes.divider} />
       <Typography>Trending Categories</Typography>
       <List className={classes.buttonList}>
-        {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
+        {categoryList.map((category, index) => (
           <Button
             key={index}
             className={classes.trendingButton}
-            onClick={() => getCategory(text)}>
-            <ListItemText primary={text} />
+            onClick={() => getCategory(category)}>
+            <ListItemText primary={category} />
           </Button>
         ))}
+        <Button onClick={subscribeToggle}>
+          {isSubscribed ? "unsubscribe" : "subscribe"}
+        </Button>
       </List>
       <Divider className={classes.divider} />
-      <List className={classes.buttonList}>
-        {["Art", "Music", "Code", "Game", "Cooking"].map((text, index) => (
-          <Button key={index} className={classes.myButton}>
-            <ListItemText primary={text} />
-          </Button>
-        ))}
-      </List>
+      <Typography>Subscribe Categories</Typography>
+      <SubCategory />
     </div>
   );
 

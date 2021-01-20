@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
-import Reminder from "../SideBar/Reminder";
-import Grid from "@material-ui/core/Grid";
+import { Grid, Divider, Button } from "@material-ui/core/";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import { makeStyles } from "@material-ui/core/styles";
-import { Divider } from "@material-ui/core";
 import { navigate } from "@reach/router";
 import axios from "axios";
 import useUser from "../../userContext/useUser";
 import MenuNav from "../MenuItem/MenuNav";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -34,6 +31,7 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [fitler, setFilter] = useState(null);
   const [refreshPost, setRefreshPost] = useState(true);
+  const [users, setUsers] = useState([]);
   const { token, user } = useUser();
 
   if (!user) navigate("/signin");
@@ -69,7 +67,6 @@ export default function Feed() {
       })
       .then(({ data }) => {
         setPosts(data);
-        console.log(data);
       })
       .catch(error => {
         console.log(error);
@@ -91,7 +88,22 @@ export default function Feed() {
       });
   };
 
-  const fitlerPost = () => {
+  //get users
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/user", {
+        headers: { "x-auth-token": token },
+      })
+      .then(res => {
+        setUsers(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [refreshPost]);
+
+  //TODO
+  const filterPost = () => {
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
@@ -99,6 +111,7 @@ export default function Feed() {
       .then(({ data }) => {
         setPosts(data);
         setFilter(data.filter());
+        console.log("click");
       });
   };
 
@@ -118,18 +131,17 @@ export default function Feed() {
             </Grid>
             <Grid>
               <Button value="Clear">Clear</Button>
-              <Button value="New">New</Button>
+              <Button value="New" onClick={filterPost}>
+                New
+              </Button>
               <Button value="Limit">Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>
               {posts.map(post => (
-                <Post key={post._id} {...post} />
+                <Post key={post._id} {...post} {...users} />
               ))}
             </Grid>
-          </Grid>
-          <Grid className={classes.reminder}>
-            <Reminder />
           </Grid>
         </Grid>
       </div>
