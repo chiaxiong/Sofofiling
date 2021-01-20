@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const { postSchema } = require("./post");
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -30,8 +31,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   post: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Posts",
+    type: [postSchema],
+    default: [],
   },
   subscriptions: [String],
 });
@@ -62,7 +63,7 @@ function validateUser(user) {
 
 function validateCategory(subBody) {
   const schema = Joi.object({
-    subscription: Joi.string().required(),
+    subscriptions: Joi.string().required(),
   });
   return schema.validate(subBody);
 }

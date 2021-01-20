@@ -98,7 +98,6 @@ router.get("/category/:category", async (req, res) => {
     const posts = await Post.find({ category: req.params.category }).populate(
       "user"
     );
-    console.log("Hitting", req.params.category);
     return res.send(posts);
   } catch (error) {
     return res.status(500).send(`Server error: ${error}`);
