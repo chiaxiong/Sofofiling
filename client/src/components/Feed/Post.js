@@ -9,8 +9,6 @@ import {
   Radio,
   Avatar,
 } from "@material-ui/core/";
-// import useUser from "../../userContext/useUser";
-// import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,64 +72,59 @@ export default function Post(props) {
   const { location, limit, time, date } = props;
   const listValue = [location, limit, time, date];
 
-  const subscriptions = (props.user.subscriptions = ![]);
-  const categories = props.category;
-
   return (
     <div className={classes.root}>
-      {subscriptions && (
-        <Container className={classes.card}>
-          <Grid container direction="row">
-            <Grid item>
-              <Avatar className={classes.avatar} />
-            </Grid>
-            <Grid item className={classes.header}>
-              <h3 className={classes.name}>
-                {"user" in props
-                  ? `${props.user.firstName} ${props.user.lastName}`
-                  : "anoynomous"}
-                <span className={classes.service}>{props.service}</span>
-              </h3>
-              <h3 className={classes.name}>
-                <span>{props.category}</span>{" "}
-                <span style={{ color: "#F5AB7C" }}>||</span>
-                <span style={{ paddingLeft: "5px" }}>{props.title}</span>
-              </h3>
-            </Grid>
+      <Container className={classes.card}>
+        <Grid container direction="row">
+          <Grid item>
+            <Avatar className={classes.avatar} />
           </Grid>
+          <Grid item className={classes.header}>
+            <h3 className={classes.name}>
+              {"user" in props
+                ? `${props.user.firstName} ${props.user.lastName}`
+                : "anoynomous"}
+              <span className={classes.service}>{props.service}</span>
+            </h3>
+            <h3 className={classes.name}>
+              <span>{props.category}</span>{" "}
+              <span style={{ color: "#F5AB7C" }}>||</span>
+              <span style={{ paddingLeft: "5px" }}>{props.title}</span>
+            </h3>
+          </Grid>
+        </Grid>
 
+        <Grid container>
+          <Grid item className={classes.postBody}>
+            <p>{props.content}</p>
+          </Grid>
           <Grid container>
-            <Grid item className={classes.postBody}>
-              <p>{props.content}</p>
+            <Grid item>
+              {listInfo.map((listItem, index) => (
+                <ul className={classes.list} key={index}>
+                  <li>{listItem}</li>
+                </ul>
+              ))}
             </Grid>
-            <Grid container>
-              <Grid item>
-                {listInfo.map((listItem, index) => (
-                  <ul className={classes.list} key={index}>
-                    <li>{listItem}</li>
-                  </ul>
-                ))}
-              </Grid>
-              <Grid item className={classes.formValue}>
-                {listValue.map((listOutput, index) => (
-                  <p key={index}>{listOutput}</p>
-                ))}
-              </Grid>
+            <Grid item className={classes.formValue}>
+              {listValue.map((listOutput, index) => (
+                <p key={index}>{listOutput}</p>
+              ))}
             </Grid>
           </Grid>
+        </Grid>
 
-          <FormControl component="fieldset" className={classes.radioBtn}>
-            <RadioGroup value={value} onChange={handleChange}>
-              <FormControlLabel
-                value="accept"
-                control={<Radio />}
-                label="Accept"
-              />
-              <FormControlLabel value="pass" control={<Radio />} label="Pass" />
-            </RadioGroup>
-          </FormControl>
-        </Container>
-      )}
+        <FormControl component="fieldset" className={classes.radioBtn}>
+          <RadioGroup value={value} onChange={handleChange}>
+            <FormControlLabel
+              value="accept"
+              control={<Radio />}
+              label="Accept"
+            />
+            <FormControlLabel value="pass" control={<Radio />} label="Pass" />
+          </RadioGroup>
+        </FormControl>
+      </Container>
     </div>
   );
 }

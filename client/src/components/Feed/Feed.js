@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
-import { Grid, Divider, Button } from "@material-ui/core/";
+import { Grid, Divider, Button, CircularProgress } from "@material-ui/core/";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,9 +29,8 @@ const useStyles = makeStyles(theme => ({
 export default function Feed() {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
-  const [fitler, setFilter] = useState(null);
   const [refreshPost, setRefreshPost] = useState(true);
-  const [users, setUsers] = useState([]);
+  const [subscribePost, setSubscribePost] = useState([]);
   const { token, user } = useUser();
 
   if (!user) navigate("/signin");
@@ -60,13 +59,28 @@ export default function Feed() {
   };
 
   //get posts
-  useEffect(() => {
+  useEffect(async () => {
+    let result = await axios.get("http://localhost:5000/api/user", {
+      headers: { "x-auth-token": token },
+    });
+    // console.log(result.data[0].subscriptions);
+    // setSubscribePost(result.data[0].subscriptions);
+
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
       })
       .then(({ data }) => {
-        setPosts(data);
+        let posts = result.data[0].subscriptions;
+        console.log(posts);
+        let filterPosts = data.filter(post => {
+          if (posts.includes(post.category)) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+        setPosts(filterPosts);
       })
       .catch(error => {
         console.log(error);
@@ -88,32 +102,29 @@ export default function Feed() {
       });
   };
 
-  //get users
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/user", {
-        headers: { "x-auth-token": token },
-      })
+  //subscribing to categories
+  const subscribe = async subscriptions => {
+    await axios
+      .put(
+        "http://localhost:5000/api/user/subscribe",
+        { subscriptions: subscriptions },
+        {
+          headers: { "x-auth-token": token },
+        }
+      )
       .then(res => {
-        setUsers(res.data);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
       });
-  }, [refreshPost]);
-
-  //TODO
-  const filterPost = () => {
-    axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      .then(({ data }) => {
-        setPosts(data);
-        setFilter(data.filter());
-        console.log("click");
-      });
   };
+
+  //deleteing subscriptions
+  const deleteSubscriptions = async () => {};
+
+  //TODO filter post
+  // const filter = posts.filter();
 
   return (
     user && (
@@ -123,7 +134,7 @@ export default function Feed() {
             <MenuNav />
           </Grid>
           <Grid item>
-            <SideBar categoryHandler={getCategory} />
+            <SideBar categoryHandler={getCategory} subscribe={subscribe} />
           </Grid>
           <Grid>
             <Grid item>
@@ -131,15 +142,13 @@ export default function Feed() {
             </Grid>
             <Grid>
               <Button value="Clear">Clear</Button>
-              <Button value="New" onClick={filterPost}>
-                New
-              </Button>
+              <Button value="New">New</Button>
               <Button value="Limit">Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>
               {posts.map(post => (
-                <Post key={post._id} {...post} {...users} />
+                <Post key={post._id} {...post} />
               ))}
             </Grid>
           </Grid>

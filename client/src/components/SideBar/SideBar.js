@@ -107,6 +107,7 @@ function ResponsiveDrawer(props) {
   };
 
   const subscribeToggle = () => {
+    props.subscribe();
     isSubscribed ? setIsSubscribed(false) : setIsSubscribed(true);
   };
 
