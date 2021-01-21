@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
-import { Grid, Divider, Button, CircularProgress } from "@material-ui/core/";
+import { Grid, Divider, Button } from "@material-ui/core/";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import { makeStyles } from "@material-ui/core/styles";
-import { navigate } from "@reach/router";
 import axios from "axios";
 import useUser from "../../userContext/useUser";
 import MenuNav from "../MenuItem/MenuNav";
@@ -30,10 +29,7 @@ export default function Feed() {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [refreshPost, setRefreshPost] = useState(true);
-  const [subscribePost, setSubscribePost] = useState([]);
   const { token, user } = useUser();
-
-  if (!user) navigate("/signin");
 
   //add new post
   const addPost = async form => {
@@ -63,18 +59,30 @@ export default function Feed() {
     let result = await axios.get("http://localhost:5000/api/user", {
       headers: { "x-auth-token": token },
     });
-    // console.log(result.data[0].subscriptions);
-    // setSubscribePost(result.data[0].subscriptions);
+
+    let userData = result.data;
+    console.log("user data: ", userData);
+    console.log("Logged In User: ", user);
+
+    let filterUser = userData.find(currentUser => {
+      console.log("single users", currentUser);
+      if ((currentUser._id = user._id)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log("We got the matched user!", filterUser);
 
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
       })
       .then(({ data }) => {
-        let posts = result.data[0].subscriptions;
-        console.log(posts);
+        let subscribedCategory = filterUser.subscriptions;
+        console.log("We got the subscriptions: ", subscribedCategory);
         let filterPosts = data.filter(post => {
-          if (posts.includes(post.category)) {
+          if (subscribedCategory.includes(post.category)) {
             return true;
           } else {
             return false;
@@ -121,7 +129,7 @@ export default function Feed() {
   };
 
   //deleteing subscriptions
-  const deleteSubscriptions = async () => {};
+  // const deleteSubscriptions = async () => {};
 
   //TODO filter post
   // const filter = posts.filter();
