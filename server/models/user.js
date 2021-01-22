@@ -30,10 +30,6 @@ const userSchema = new mongoose.Schema({
     maxlength: 255,
     required: true,
   },
-  post: {
-    type: [postSchema],
-    default: [],
-  },
   subscriptions: [String],
 });
 

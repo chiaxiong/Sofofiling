@@ -8,9 +8,7 @@ router.use(auth);
 router.post("/", async (req, res) => {
   try {
     const { error } = validate(req.body);
-    console.log(error);
     if (error) return res.status(400).send(error);
-    console.log("Hitting post endpoint");
 
     const newPost = new Post({
       content: req.body.content,
@@ -25,7 +23,6 @@ router.post("/", async (req, res) => {
     });
 
     await newPost.save();
-    console.log(newPost);
     return res.send(newPost);
   } catch (err) {
     console.log(err);

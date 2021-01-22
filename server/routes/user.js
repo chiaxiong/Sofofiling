@@ -34,6 +34,9 @@ router.put("/subscribe", auth, async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send(`${user} does not exist`);
 
+    // const alreadySubscribed = User.findOne(req.body.subscriptions);
+    // if (alreadySubscribed) return res.status(400).send("Already subscribed");
+
     user.subscriptions.push(req.body.subscriptions);
 
     await user.save();
@@ -50,6 +53,27 @@ router.get("/subscriptions", auth, async (req, res) => {
     if (!user) return res.status(400).send(`${user} does not exist`);
 
     return res.send(user.subscriptions);
+  } catch (error) {
+    return res.status(500).send(`Internal Server Error: ${error}`);
+  }
+});
+
+router.delete("/subscriptions", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(400).send(`${user} does not exist`);
+
+    const subList = user.subscriptions;
+
+    const removeSubscriptions = subList.filter(item => {
+      return item !== subList;
+    });
+    console.log(removeSubscriptions);
+    // user.subscriptions = removeSubscriptions;
+
+    await user.save();
+
+    return res.send(user);
   } catch (error) {
     return res.status(500).send(`Internal Server Error: ${error}`);
   }
