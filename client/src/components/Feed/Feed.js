@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import useUser from "../../userContext/useUser";
 import MenuNav from "../MenuItem/MenuNav";
+import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -29,7 +30,9 @@ export default function Feed() {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [refreshPost, setRefreshPost] = useState(true);
+  const [userSubs, setUserSubs] = useState([]);
   const { token, user } = useUser();
+  if (!user) navigate("/signin");
 
   //add new post
   const addPost = async form => {
@@ -61,26 +64,28 @@ export default function Feed() {
     });
 
     let userData = result.data;
-    console.log("user data: ", userData);
-    console.log("Logged In User: ", user);
+    console.log("userData: ", userData);
+    console.log("login user: ", user);
 
     let filterUser = userData.find(currentUser => {
-      console.log("single users", currentUser);
-      if ((currentUser._id = user._id)) {
+      console.log("current user: ", currentUser);
+      if (currentUser._id === user._id) {
+        console.log("matched user");
         return true;
-      } else {
+      } else if (currentUser._id !== user._id) {
+        console.log("user not matched");
         return false;
       }
     });
-    console.log("We got the matched user!", filterUser);
-
+    console.log("we got the matching user", filterUser);
+    setUserSubs(filterUser.subscriptions);
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
       })
       .then(({ data }) => {
         let subscribedCategory = filterUser.subscriptions;
-        console.log("We got the subscriptions: ", subscribedCategory);
+        console.log("list of subscriptions: ", subscribedCategory);
         let filterPosts = data.filter(post => {
           if (subscribedCategory.includes(post.category)) {
             return true;
@@ -103,7 +108,7 @@ export default function Feed() {
       })
       .then(res => {
         setPosts(res.data);
-        console.log(res);
+        console.log("category button click", res);
       })
       .catch(err => {
         console.log(err);
@@ -111,11 +116,12 @@ export default function Feed() {
   };
 
   //subscribing to categories
-  const subscribe = async subscriptions => {
+  const subscribe = async category => {
+    console.log("from feed.js", category);
     await axios
       .put(
         "http://localhost:5000/api/user/subscribe",
-        { subscriptions: subscriptions },
+        { subscription: category },
         {
           headers: { "x-auth-token": token },
         }
@@ -128,9 +134,6 @@ export default function Feed() {
       });
   };
 
-  //deleteing subscriptions
-  // const deleteSubscriptions = async () => {};
-
   //TODO filter post
   // const filter = posts.filter();
 
@@ -142,7 +145,11 @@ export default function Feed() {
             <MenuNav />
           </Grid>
           <Grid item>
-            <SideBar categoryHandler={getCategory} subscribe={subscribe} />
+            <SideBar
+              categoryHandler={getCategory}
+              subscribe={subscribe}
+              userSubs={userSubs}
+            />
           </Grid>
           <Grid>
             <Grid item>

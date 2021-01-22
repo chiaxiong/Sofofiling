@@ -102,12 +102,13 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const getCategory = categoryId => {
-    props.categoryHandler(categoryId);
+  const getCategory = category => {
+    props.categoryHandler(category);
   };
 
-  const subscribeToggle = () => {
-    props.subscribe();
+  const subscribeToggle = category => {
+    console.log("subscribeToggle ", category);
+    props.subscribe(category);
     isSubscribed ? setIsSubscribed(false) : setIsSubscribed(true);
   };
 
@@ -128,11 +129,11 @@ function ResponsiveDrawer(props) {
             className={classes.trendingButton}
             onClick={() => getCategory(category)}>
             <ListItemText primary={category} />
+            <Button onClick={() => subscribeToggle(category)}>
+              {props.userSubs.includes(category) ? "unsubscribe" : "subscribe"}
+            </Button>
           </Button>
         ))}
-        <Button onClick={subscribeToggle}>
-          {isSubscribed ? "unsubscribe" : "subscribe"}
-        </Button>
       </List>
       <Divider className={classes.divider} />
       <Typography>Subscribe Categories</Typography>

@@ -25,6 +25,7 @@ export function UserProvider({ children }) {
     } else if (!token) {
       AuthProvider.provider.logout();
       setUser(null);
+      // window.location.reload();
     }
   }, [token]);
 
