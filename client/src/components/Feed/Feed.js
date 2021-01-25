@@ -130,11 +130,13 @@ export default function Feed() {
 
   //remove subscribes
   const unsubscribe = async category => {
-    await axios.delete("http://localhost:5000/api/user/subscriptions");
+    await axios.delete(
+      `http://localhost:5000/api/user/subscriptions/${category}`,
+      {
+        headers: { "x-auth-token": token },
+      }
+    );
   };
-
-  //TODO filter post
-  // const filter = posts.filter();
 
   return (
     user && (
@@ -148,6 +150,7 @@ export default function Feed() {
               categoryHandler={getCategory}
               subscribe={subscribe}
               userSubs={userSubs}
+              unSub={unsubscribe}
             />
           </Grid>
           <Grid>
