@@ -63,7 +63,7 @@ router.get("/subscriptions", auth, async (req, res) => {
   }
 });
 
-router.delete("/subscriptions", auth, async (req, res) => {
+router.delete("/subscriptions/:category", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send(`${user} does not exist`);
@@ -71,7 +71,7 @@ router.delete("/subscriptions", auth, async (req, res) => {
     const subList = user.subscriptions;
 
     const removeSubscriptions = subList.filter(item => {
-      return item === null;
+      return item.toLowerCase() === req.params.category.toLowerCase();
     });
     console.log(removeSubscriptions);
 
