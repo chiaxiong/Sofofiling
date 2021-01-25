@@ -36,6 +36,7 @@ export default function Feed() {
 
   //add new post
   const addPost = async form => {
+    console.log(form);
     await axios
       .post(
         "http://localhost:5000/api/post",
@@ -64,20 +65,15 @@ export default function Feed() {
     });
 
     let userData = result.data;
-    console.log("userData: ", userData);
-    console.log("login user: ", user);
 
     let filterUser = userData.find(currentUser => {
-      console.log("current user: ", currentUser);
       if (currentUser._id === user._id) {
-        console.log("matched user");
         return true;
       } else if (currentUser._id !== user._id) {
-        console.log("user not matched");
         return false;
       }
     });
-    console.log("we got the matching user", filterUser);
+
     setUserSubs(filterUser.subscriptions);
     axios
       .get("http://localhost:5000/api/post", {
@@ -85,7 +81,7 @@ export default function Feed() {
       })
       .then(({ data }) => {
         let subscribedCategory = filterUser.subscriptions;
-        console.log("list of subscriptions: ", subscribedCategory);
+
         let filterPosts = data.filter(post => {
           if (subscribedCategory.includes(post.category)) {
             return true;
@@ -108,7 +104,6 @@ export default function Feed() {
       })
       .then(res => {
         setPosts(res.data);
-        console.log("category button click", res);
       })
       .catch(err => {
         console.log(err);
@@ -117,11 +112,10 @@ export default function Feed() {
 
   //subscribing to categories
   const subscribe = async category => {
-    console.log("from feed.js", category);
     await axios
       .put(
         "http://localhost:5000/api/user/subscribe",
-        { subscription: category },
+        { subscriptions: category },
         {
           headers: { "x-auth-token": token },
         }
@@ -132,6 +126,11 @@ export default function Feed() {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  //remove subscribes
+  const unsubscribe = async category => {
+    await axios.delete("http://localhost:5000/api/user/subscriptions");
   };
 
   //TODO filter post
