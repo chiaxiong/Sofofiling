@@ -2,6 +2,7 @@ const { User, validateSubscription } = require("../models/user");
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const c = require("config");
 
 router.get("/", async (req, res) => {
   try {
@@ -14,7 +15,6 @@ router.get("/", async (req, res) => {
 
 router.get("/userId", auth, async (req, res) => {
   try {
-    console.log("hit");
     const user = await User.findById(req.user._id);
 
     if (!user) return res.status(400).send(`User does not exist`);
@@ -34,11 +34,8 @@ router.put("/subscribe", auth, async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send(`${user} does not exist`);
 
-    // if (user.subscriptions === req.body.subscriptions)
-    //   return res.status(400).send("Already subscribed");
-
     user.subscriptions.push(req.body.subscriptions);
-
+    console.log(user.subscriptions);
     await user.save();
 
     return res.send(user);
@@ -47,36 +44,21 @@ router.put("/subscribe", auth, async (req, res) => {
   }
 });
 
-router.get("/subscriptions", auth, async (req, res) => {
-  try {
-    const addSubscriptions = await User.findById(
-      req.user._id,
-      { subscriptions: req.body.subcriptions },
-      { new: true }
-    );
-
-    if (!user) return res.status(400).send(`${user} does not exist`);
-
-    return res.send(addSubscriptions);
-  } catch (error) {
-    return res.status(500).send(`Internal Server Error: ${error}`);
-  }
-});
-
 router.delete("/subscriptions/:category", auth, async (req, res) => {
   try {
+    console.log("hit");
     const user = await User.findById(req.user._id);
     if (!user) return res.status(400).send(`${user} does not exist`);
 
     const subList = user.subscriptions;
+    console.log(subList);
 
     const removeSubscriptions = subList.filter(item => {
-      return item.toLowerCase() === req.params.category.toLowerCase();
+      return item.toLowerCase() !== req.params.category.toLowerCase();
     });
-    console.log(removeSubscriptions);
 
     user.subscriptions = removeSubscriptions;
-
+    console.log(user.subscriptions);
     await user.save();
 
     return res.send(user);
