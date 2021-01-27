@@ -149,6 +149,7 @@ export default function Feed() {
       });
   };
 
+  //filter button
   const filterBtn = async type => {
     await axios
       .get("http://localhost:5000/api/post", {
@@ -162,7 +163,12 @@ export default function Feed() {
           let recentPost = allPosts.sort().reverse();
           setPosts(recentPost);
         } else if (type === "Limit") {
-          console.log("Line 154");
+          let filterLimit = data.filter(limit => limit.limit > 0);
+          setPosts(filterLimit);
+        } else if (type === "No Limit") {
+          let noLimit = data.filter(limit => limit.limit === 0);
+          setPosts(noLimit);
+          console.log(type);
         }
       })
       .catch(err => {
@@ -193,6 +199,7 @@ export default function Feed() {
               <Button onClick={() => filterBtn("Clear")}>Clear</Button>
               <Button onClick={() => filterBtn("New")}>New</Button>
               <Button onClick={() => filterBtn("Limit")}>Limit</Button>
+              <Button onClick={() => filterBtn("No Limit")}>No Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>
