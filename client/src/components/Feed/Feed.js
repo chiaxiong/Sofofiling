@@ -62,43 +62,43 @@ export default function Feed() {
 
   // get user's subscripitons & posts
   useEffect(async () => {
-    let result = await axios.get("http://localhost:5000/api/user", {
-      headers: { "x-auth-token": token },
-    });
+    const userAPI = "http://localhost:5000/api/user";
+    const postAPI = "http://localhost:5000/api/post";
+    const headers = { headers: { "x-auth-token": token } };
 
-    let userData = result.data; //set userData = to the data results
-
-    let filterUser = userData.find(currentUser => {
-      if (user._id === currentUser._id) {
-        //need to set the login user to match the user in the DB
-        return true;
-      } else {
-        return false;
-      }
-    });
-
-    setUserSubs(filterUser.subscriptions);
+    const users = await axios.get(userAPI, headers);
+    const post = await axios.get(postAPI, headers);
 
     axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      .then(({ data }) => {
-        let subscribedCategory = filterUser.subscriptions; //let subscribedCategory contain the user's list of subscriptions
+      .all([users, post])
+      .then(
+        axios.spread((...data) => {
+          const allUsers = data[0].data;
+          const allPosts = data[1].data;
 
-        let filterPosts = data.filter(post => {
-          //post is retreving single posts
-          if (subscribedCategory.includes(post.category)) {
-            //if subscribedCategory includes the category return the value
-            return true;
-          } else {
-            return false;
-          }
-        });
-        setPosts(filterPosts); //setPosts will render all the post that has the subscribed category
-      })
-      .catch(error => {
-        console.log(error);
+          let userData = allUsers;
+          let filterUser = userData.find(currentUser => {
+            console.log(currentUser);
+            if (user._id === currentUser._id) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+
+          let subscribedCategory = filterUser.subscriptions;
+          let filterPosts = allPosts.filter(post => {
+            if (subscribedCategory.includes(post.category)) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          setPosts(filterPosts);
+        })
+      )
+      .catch(err => {
+        console.log(err);
       });
   }, [refreshPost]);
 
