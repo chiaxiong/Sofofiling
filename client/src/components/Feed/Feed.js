@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
-import { Grid, Divider, Button } from "@material-ui/core/";
+import { Grid, Divider, Button, CircularProgress } from "@material-ui/core/";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,6 +32,8 @@ export default function Feed() {
   const [refreshPost, setRefreshPost] = useState(true);
   const [userSubs, setUserSubs] = useState([]);
   const { token, user } = useUser();
+  const [activePost, setActivePost] = useState([]);
+
   if (!user) navigate("/signin");
 
   //add new post
@@ -58,7 +60,7 @@ export default function Feed() {
       .catch(er => console.warn(er));
   };
 
-  //get posts
+  // get user's subscripitons & posts
   useEffect(async () => {
     let result = await axios.get("http://localhost:5000/api/user", {
       headers: { "x-auth-token": token },
@@ -67,14 +69,15 @@ export default function Feed() {
     let userData = result.data;
 
     let filterUser = userData.find(currentUser => {
-      if (currentUser._id === user._id) {
+      if (user._id === currentUser._id) {
         return true;
-      } else if (currentUser._id !== user._id) {
+      } else {
         return false;
       }
     });
 
     setUserSubs(filterUser.subscriptions);
+
     axios
       .get("http://localhost:5000/api/post", {
         headers: { "x-auth-token": token },
@@ -83,12 +86,14 @@ export default function Feed() {
         let subscribedCategory = filterUser.subscriptions;
 
         let filterPosts = data.filter(post => {
+          console.log(post);
           if (subscribedCategory.includes(post.category)) {
             return true;
           } else {
             return false;
           }
         });
+        console.log(filterPosts);
         setPosts(filterPosts);
       })
       .catch(error => {
@@ -130,12 +135,32 @@ export default function Feed() {
 
   //remove subscribes
   const unsubscribe = async category => {
-    await axios.delete(
-      `http://localhost:5000/api/user/subscriptions/${category}`,
-      {
+    await axios
+      .delete(`http://localhost:5000/api/user/subscriptions/${category}`, {
         headers: { "x-auth-token": token },
-      }
-    );
+      })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const filterBtn = type => {
+    if (type === "Clear") {
+      console.log(posts);
+      setPosts(posts);
+    } else if (type === "New") {
+      let allPosts = posts;
+
+      let recentPost = allPosts.sort().reverse();
+
+      console.log(recentPost);
+      setPosts(recentPost);
+    } else if (type === "Limit") {
+      console.log("Line 154");
+    }
   };
 
   return (
@@ -158,9 +183,9 @@ export default function Feed() {
               <PostForm onPostSubmit={addPost} {...posts} />
             </Grid>
             <Grid>
-              <Button value="Clear">Clear</Button>
-              <Button value="New">New</Button>
-              <Button value="Limit">Limit</Button>
+              <Button onClick={() => filterBtn("Clear")}>Clear</Button>
+              <Button onClick={() => filterBtn("New")}>New</Button>
+              <Button onClick={() => filterBtn("Limit")}>Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>

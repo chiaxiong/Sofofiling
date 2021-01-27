@@ -8,6 +8,8 @@ import {
   RadioGroup,
   Radio,
   Avatar,
+  Typography,
+  Button,
 } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
@@ -64,7 +66,7 @@ export default function Post(props) {
   const classes = useStyles();
   const [value, setValue] = useState("");
 
-  const handleChange = event => {
+  const handleRadio = event => {
     setValue(event.target.value);
   };
 
@@ -113,17 +115,29 @@ export default function Post(props) {
             </Grid>
           </Grid>
         </Grid>
-
-        <FormControl component="fieldset" className={classes.radioBtn}>
-          <RadioGroup value={value} onChange={handleChange}>
-            <FormControlLabel
-              value="accept"
-              control={<Radio />}
-              label="Accept"
-            />
-            <FormControlLabel value="pass" control={<Radio />} label="Pass" />
-          </RadioGroup>
-        </FormControl>
+        <Grid container>
+          <Grid item>
+            <FormControl component="fieldset" className={classes.radioBtn}>
+              <RadioGroup value={value} onChange={handleRadio}>
+                <FormControlLabel
+                  value="accept"
+                  control={<Radio />}
+                  label="Accept"
+                />
+                <FormControlLabel
+                  value="pass"
+                  control={<Radio />}
+                  label="Pass"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item>
+            <Button>
+              <Typography>View Post</Typography>
+            </Button>
+          </Grid>
+        </Grid>
       </Container>
     </div>
   );

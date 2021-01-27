@@ -94,6 +94,8 @@ function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
+  const { subscribe, categoryHandler, unSub, userSubs } = props;
+
   const { user } = useUser();
 
   if (!user) navigate("/signin");
@@ -103,13 +105,21 @@ function ResponsiveDrawer(props) {
   };
 
   const getCategory = category => {
-    props.categoryHandler(category);
+    categoryHandler(category);
   };
 
   const subscribeToggle = category => {
-    console.log("subscribeToggle ", category);
-    props.subscribe(category);
     isSubscribed ? setIsSubscribed(false) : setIsSubscribed(true);
+  };
+
+  const removeSubs = category => {
+    unSub(category);
+    console.log("unsubscribed");
+  };
+
+  const addSubs = category => {
+    subscribe(category);
+    console.log("subscribed");
   };
 
   const categoryList = ["Art", "Music", "Code", "Game", "Cooking"];
@@ -129,8 +139,15 @@ function ResponsiveDrawer(props) {
             className={classes.trendingButton}
             onClick={() => getCategory(category)}>
             <ListItemText primary={category} />
-            <Button onClick={() => subscribeToggle(category)}>
-              {props.userSubs.includes(category) ? "unsubscribe" : "subscribe"}
+            <Button
+              onClick={() => removeSubs(category)}
+              style={{ fontSize: ".2em" }}>
+              unsubscribe
+            </Button>
+            <Button
+              onClick={() => addSubs(category)}
+              style={{ fontSize: ".2em" }}>
+              subscribe
             </Button>
           </Button>
         ))}
