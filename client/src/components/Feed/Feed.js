@@ -66,10 +66,11 @@ export default function Feed() {
       headers: { "x-auth-token": token },
     });
 
-    let userData = result.data;
+    let userData = result.data; //set userData = to the data results
 
     let filterUser = userData.find(currentUser => {
       if (user._id === currentUser._id) {
+        //need to set the login user to match the user in the DB
         return true;
       } else {
         return false;
@@ -83,18 +84,18 @@ export default function Feed() {
         headers: { "x-auth-token": token },
       })
       .then(({ data }) => {
-        let subscribedCategory = filterUser.subscriptions;
+        let subscribedCategory = filterUser.subscriptions; //let subscribedCategory contain the user's list of subscriptions
 
         let filterPosts = data.filter(post => {
-          console.log(post);
+          //post is retreving single posts
           if (subscribedCategory.includes(post.category)) {
+            //if subscribedCategory includes the category return the value
             return true;
           } else {
             return false;
           }
         });
-        console.log(filterPosts);
-        setPosts(filterPosts);
+        setPosts(filterPosts); //setPosts will render all the post that has the subscribed category
       })
       .catch(error => {
         console.log(error);
@@ -109,6 +110,7 @@ export default function Feed() {
       })
       .then(res => {
         setPosts(res.data);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
@@ -147,20 +149,25 @@ export default function Feed() {
       });
   };
 
-  const filterBtn = type => {
-    if (type === "Clear") {
-      console.log(posts);
-      setPosts(posts);
-    } else if (type === "New") {
-      let allPosts = posts;
-
-      let recentPost = allPosts.sort().reverse();
-
-      console.log(recentPost);
-      setPosts(recentPost);
-    } else if (type === "Limit") {
-      console.log("Line 154");
-    }
+  const filterBtn = async type => {
+    await axios
+      .get("http://localhost:5000/api/post", {
+        headers: { "x-auth-token": token },
+      })
+      .then(({ data }) => {
+        if (type === "Clear") {
+          setPosts(data);
+        } else if (type === "New") {
+          let allPosts = data;
+          let recentPost = allPosts.sort().reverse();
+          setPosts(recentPost);
+        } else if (type === "Limit") {
+          console.log("Line 154");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
