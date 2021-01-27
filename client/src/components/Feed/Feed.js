@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
-import { Grid, Divider, Button, CircularProgress } from "@material-ui/core/";
+import { Grid, Divider, Button } from "@material-ui/core/";
 import Post from "./Post";
 import PostForm from "./PostForm";
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,7 +32,9 @@ export default function Feed() {
   const [refreshPost, setRefreshPost] = useState(true);
   const [userSubs, setUserSubs] = useState([]);
   const { token, user } = useUser();
-  const [activePost, setActivePost] = useState([]);
+  const [activePost, setActivePost] = useState(false);
+
+  const headers = { headers: { "x-auth-token": token } };
 
   if (!user) navigate("/signin");
 
@@ -78,7 +80,6 @@ export default function Feed() {
 
           let userData = allUsers;
           let filterUser = userData.find(currentUser => {
-            console.log(currentUser);
             if (user._id === currentUser._id) {
               return true;
             } else {
@@ -108,9 +109,8 @@ export default function Feed() {
       .get(`http://localhost:5000/api/post/category/${categoryId}`, {
         headers: { "x-auth-token": token },
       })
-      .then(res => {
-        setPosts(res.data);
-        console.log(res.data);
+      .then(({ data }) => {
+        setPosts(data);
       })
       .catch(err => {
         console.log(err);
@@ -149,6 +149,7 @@ export default function Feed() {
       });
   };
 
+  //filter button
   const fitlerButton = async type => {
     const userAPI = "http://localhost:5000/api/user";
     const postAPI = "http://localhost:5000/api/post";
@@ -202,6 +203,19 @@ export default function Feed() {
       });
   };
 
+  //view single post
+  const viewPost = async postId => {
+    await axios
+      .get(`http://localhost:5000/api/post/${postId}`, headers)
+      .then(({ data }) => {
+        setActivePost(data);
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     user && (
       <div>
@@ -230,7 +244,7 @@ export default function Feed() {
             <Divider className={classes.divider} />
             <Grid item>
               {posts.map(post => (
-                <Post key={post._id} {...post} />
+                <Post viewPost={viewPost} key={post._id} {...post} />
               ))}
             </Grid>
           </Grid>

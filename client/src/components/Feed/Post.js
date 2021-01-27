@@ -70,6 +70,11 @@ export default function Post(props) {
     setValue(event.target.value);
   };
 
+  const viewSinglePost = postId => {
+    console.log("click");
+    props.viewPost(postId);
+  };
+
   const listInfo = ["LOCATION:", "LIMIT:", "TIME:", "DATE:"];
   const { location, limit, time, date } = props;
   const listValue = [location, limit, time, date];
@@ -133,7 +138,7 @@ export default function Post(props) {
             </FormControl>
           </Grid>
           <Grid item>
-            <Button>
+            <Button onClick={viewSinglePost}>
               <Typography>View Post</Typography>
             </Button>
           </Grid>
