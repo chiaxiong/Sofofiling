@@ -149,28 +149,54 @@ export default function Feed() {
       });
   };
 
-  //filter button
-  const filterBtn = async type => {
-    await axios
-      .get("http://localhost:5000/api/post", {
-        headers: { "x-auth-token": token },
-      })
-      .then(({ data }) => {
-        if (type === "Clear") {
-          setPosts(data);
-        } else if (type === "New") {
-          let allPosts = data;
-          let recentPost = allPosts.sort().reverse();
-          setPosts(recentPost);
-        } else if (type === "Limit") {
-          let filterLimit = data.filter(limit => limit.limit > 0);
-          setPosts(filterLimit);
-        } else if (type === "No Limit") {
-          let noLimit = data.filter(limit => limit.limit === 0);
-          setPosts(noLimit);
-          console.log(type);
-        }
-      })
+  const fitlerButton = async type => {
+    const userAPI = "http://localhost:5000/api/user";
+    const postAPI = "http://localhost:5000/api/post";
+    const headers = { headers: { "x-auth-token": token } };
+
+    const users = await axios.get(userAPI, headers);
+    const post = await axios.get(postAPI, headers);
+
+    axios
+      .all([users, post])
+      .then(
+        axios.spread((...data) => {
+          const allUsers = data[0].data;
+          const allPosts = data[1].data;
+
+          let userData = allUsers;
+          let filterUser = userData.find(currentUser => {
+            console.log(currentUser);
+            if (user._id === currentUser._id) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+
+          let subscribedCategory = filterUser.subscriptions;
+          let filterPosts = allPosts.filter(post => {
+            if (subscribedCategory.includes(post.category)) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+
+          if (type === "Clear") {
+            setPosts(filterPosts);
+          } else if (type === "New") {
+            let recentPost = allPosts.sort().reverse();
+            setPosts(recentPost);
+          } else if (type === "Limit") {
+            let filterLimit = allPosts.filter(limit => limit.limit > 0);
+            setPosts(filterLimit);
+          } else if (type === "No Limit") {
+            let noLimit = allPosts.filter(limit => limit.limit === 0);
+            setPosts(noLimit);
+          }
+        })
+      )
       .catch(err => {
         console.log(err);
       });
@@ -196,10 +222,10 @@ export default function Feed() {
               <PostForm onPostSubmit={addPost} {...posts} />
             </Grid>
             <Grid>
-              <Button onClick={() => filterBtn("Clear")}>Clear</Button>
-              <Button onClick={() => filterBtn("New")}>New</Button>
-              <Button onClick={() => filterBtn("Limit")}>Limit</Button>
-              <Button onClick={() => filterBtn("No Limit")}>No Limit</Button>
+              <Button onClick={() => fitlerButton("Clear")}>Clear</Button>
+              <Button onClick={() => fitlerButton("New")}>New</Button>
+              <Button onClick={() => fitlerButton("Limit")}>Limit</Button>
+              <Button onClick={() => fitlerButton("No Limit")}>No Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
             <Grid item>
