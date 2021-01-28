@@ -71,7 +71,6 @@ export default function Post(props) {
   };
 
   const viewSinglePost = postId => {
-    console.log("click");
     props.viewPost(postId);
   };
 
@@ -137,11 +136,19 @@ export default function Post(props) {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item>
-            <Button onClick={viewSinglePost}>
-              <Typography>View Post</Typography>
-            </Button>
-          </Grid>
+          {props.activePost ? (
+            <Grid item>
+              <Button onClick={() => viewSinglePost(props._id)}>
+                <Typography>View Post</Typography>
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item>
+              <Button onClick={props.prevState}>
+                <Typography>Back</Typography>
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </div>

@@ -8,6 +8,7 @@ import axios from "axios";
 import useUser from "../../userContext/useUser";
 import MenuNav from "../MenuItem/MenuNav";
 import { navigate } from "@reach/router";
+import Message from "./Message";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -32,7 +33,8 @@ export default function Feed() {
   const [refreshPost, setRefreshPost] = useState(true);
   const [userSubs, setUserSubs] = useState([]);
   const { token, user } = useUser();
-  const [activePost, setActivePost] = useState(false);
+  const [activePost, setActivePost] = useState(true);
+  const [activePostObject, setActivePostObject] = useState({});
 
   const headers = { headers: { "x-auth-token": token } };
 
@@ -54,7 +56,7 @@ export default function Feed() {
           time: form.time,
           date: form.date,
         },
-        { headers: { "x-auth-token": token } }
+        headers
       )
       .then(() => {
         setRefreshPost(!refreshPost);
@@ -66,7 +68,6 @@ export default function Feed() {
   useEffect(async () => {
     const userAPI = "http://localhost:5000/api/user";
     const postAPI = "http://localhost:5000/api/post";
-    const headers = { headers: { "x-auth-token": token } };
 
     const users = await axios.get(userAPI, headers);
     const post = await axios.get(postAPI, headers);
@@ -106,9 +107,7 @@ export default function Feed() {
   //get categories
   const getCategory = categoryId => {
     axios
-      .get(`http://localhost:5000/api/post/category/${categoryId}`, {
-        headers: { "x-auth-token": token },
-      })
+      .get(`http://localhost:5000/api/post/category/${categoryId}`, headers)
       .then(({ data }) => {
         setPosts(data);
       })
@@ -204,16 +203,19 @@ export default function Feed() {
   };
 
   //view single post
-  const viewPost = async postId => {
-    await axios
-      .get(`http://localhost:5000/api/post/${postId}`, headers)
-      .then(({ data }) => {
-        setActivePost(data);
-        console.log(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  const viewPost = postId => {
+    let selectedPosts = posts.filter(post => post._id === postId);
+    if (selectedPosts.length === 1) {
+      console.log(selectedPosts[0]);
+      setActivePostObject(selectedPosts[0]);
+      setActivePost(false);
+    } else {
+      alert("No Post Found");
+    }
+  };
+
+  const setFeed = () => {
+    setActivePost(true);
   };
 
   return (
@@ -242,11 +244,24 @@ export default function Feed() {
               <Button onClick={() => fitlerButton("No Limit")}>No Limit</Button>
             </Grid>
             <Divider className={classes.divider} />
-            <Grid item>
-              {posts.map(post => (
-                <Post viewPost={viewPost} key={post._id} {...post} />
-              ))}
-            </Grid>
+            {activePost ? (
+              <Grid item>
+                {posts.map(post => (
+                  <Post
+                    viewPost={viewPost}
+                    key={post._id}
+                    {...post}
+                    prevState={setFeed}
+                    activePost={activePost}
+                  />
+                ))}
+              </Grid>
+            ) : (
+              <div>
+                <Post {...activePostObject} prevState={setFeed} />
+                <Message />
+              </div>
+            )}
           </Grid>
         </Grid>
       </div>
