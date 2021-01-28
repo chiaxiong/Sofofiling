@@ -1,5 +1,5 @@
 import "./App.css";
-import SignIn from "./Page/SignIn";
+import SignIn from "./SignIn/SignIn";
 import MultistepForm from "./MultistepForm/MultistepForm";
 import Home from "./Home/Home";
 import { Router } from "@reach/router";

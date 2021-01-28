@@ -8,7 +8,7 @@ import axios from "axios";
 import useUser from "../../userContext/useUser";
 import MenuNav from "../MenuItem/MenuNav";
 import { navigate } from "@reach/router";
-import Message from "./Message";
+import Message from "../Message/Message";
 
 const useStyles = makeStyles(theme => ({
   reminder: {
@@ -233,18 +233,21 @@ export default function Feed() {
               unSub={unsubscribe}
             />
           </Grid>
-          <Grid>
-            <Grid item>
-              <PostForm onPostSubmit={addPost} {...posts} />
-            </Grid>
+          {activePost ? (
             <Grid>
-              <Button onClick={() => fitlerButton("Clear")}>Clear</Button>
-              <Button onClick={() => fitlerButton("New")}>New</Button>
-              <Button onClick={() => fitlerButton("Limit")}>Limit</Button>
-              <Button onClick={() => fitlerButton("No Limit")}>No Limit</Button>
-            </Grid>
-            <Divider className={classes.divider} />
-            {activePost ? (
+              <Grid item>
+                <PostForm onPostSubmit={addPost} {...posts} />
+              </Grid>
+              <Grid>
+                <Button onClick={() => fitlerButton("Clear")}>Clear</Button>
+                <Button onClick={() => fitlerButton("New")}>New</Button>
+                <Button onClick={() => fitlerButton("Limit")}>Limit</Button>
+                <Button onClick={() => fitlerButton("No Limit")}>
+                  No Limit
+                </Button>
+              </Grid>
+              <Divider className={classes.divider} />
+
               <Grid item>
                 {posts.map(post => (
                   <Post
@@ -256,13 +259,13 @@ export default function Feed() {
                   />
                 ))}
               </Grid>
-            ) : (
-              <div>
-                <Post {...activePostObject} prevState={setFeed} />
-                <Message />
-              </div>
-            )}
-          </Grid>
+            </Grid>
+          ) : (
+            <>
+              <Post {...activePostObject} prevState={setFeed} />
+              <Message />
+            </>
+          )}
         </Grid>
       </div>
     )
