@@ -214,6 +214,7 @@ export default function Feed() {
     }
   };
 
+  //set post back to feed
   const setFeed = () => {
     setActivePost(true);
   };

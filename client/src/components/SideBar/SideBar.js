@@ -6,49 +6,16 @@ import {
   Button,
   ListItemText,
   List,
-  IconButton,
-  Hidden,
-  Drawer,
   Link,
 } from "@material-ui/core/";
-import MenuIcon from "@material-ui/icons/Menu";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import useUser from "../../userContext/useUser";
 import { navigate } from "@reach/router";
 import SubCategory from "./SubCategory";
 
-const drawerWidth = 300;
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-  },
-  drawer: {
-    [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
   },
   buttonList: {
     display: "flex",
@@ -79,6 +46,7 @@ const useStyles = makeStyles(theme => ({
   sidebar: {
     backgroundColor: "#F5AB7C",
     height: "100%",
+    width: "280px",
   },
   divider: {
     marginTop: "20px",
@@ -87,11 +55,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ResponsiveDrawer(props) {
-  const { window } = props;
+export default function SideBar(props) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const { subscribe, categoryHandler, unSub, userSubs } = props;
@@ -99,10 +64,6 @@ function ResponsiveDrawer(props) {
   const { user } = useUser();
 
   if (!user) navigate("/signin");
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const getCategory = category => {
     categoryHandler(category);
@@ -124,87 +85,39 @@ function ResponsiveDrawer(props) {
 
   const categoryList = ["Art", "Music", "Code", "Game", "Cooking"];
 
-  const drawer = (
-    <div className={classes.sidebar}>
-      <div className={classes.toolbar} />
-      <Link href="/feed">
-        <Typography>Sofofiling</Typography>
-      </Link>
-      <Divider className={classes.divider} />
-      <Typography>Trending Categories</Typography>
-      <List className={classes.buttonList}>
-        {categoryList.map((category, index) => (
-          <Button
-            key={index}
-            className={classes.trendingButton}
-            onClick={() => getCategory(category)}>
-            <ListItemText primary={category} />
-            <Button
-              onClick={() => removeSubs(category)}
-              style={{ fontSize: ".2em" }}>
-              unsubscribe
-            </Button>
-            <Button
-              onClick={() => addSubs(category)}
-              style={{ fontSize: ".2em" }}>
-              subscribe
-            </Button>
-          </Button>
-        ))}
-      </List>
-      <Divider className={classes.divider} />
-      <Typography>Subscribe Categories</Typography>
-      <SubCategory />
-    </div>
-  );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <div className={classes.root}>
-      {/* Hambergur Button */}
-      <Grid>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          className={classes.menuButton}>
-          <MenuIcon />
-        </IconButton>
-      </Grid>
-      <nav className={classes.drawer}>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}>
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open>
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
+      <div className={classes.sidebar}>
+        <div className={classes.toolbar} />
+        <Link href="/feed">
+          <Typography>Sofofiling</Typography>
+        </Link>
+        <Divider className={classes.divider} />
+        <Typography>Trending Categories</Typography>
+        <List className={classes.buttonList}>
+          {categoryList.map((category, index) => (
+            <Button
+              key={index}
+              className={classes.trendingButton}
+              onClick={() => getCategory(category)}>
+              <ListItemText primary={category} />
+              <Button
+                onClick={() => removeSubs(category)}
+                style={{ fontSize: ".2em" }}>
+                unsubscribe
+              </Button>
+              <Button
+                onClick={() => addSubs(category)}
+                style={{ fontSize: ".2em" }}>
+                subscribe
+              </Button>
+            </Button>
+          ))}
+        </List>
+        <Divider className={classes.divider} />
+        <Typography>Subscribe Categories</Typography>
+        <SubCategory />
+      </div>
     </div>
   );
 }
-
-export default ResponsiveDrawer;
