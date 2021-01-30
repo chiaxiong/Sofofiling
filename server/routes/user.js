@@ -13,9 +13,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/userId", auth, async (req, res) => {
+router.get("/:userId", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.params.userId);
 
     if (!user) return res.status(400).send(`User does not exist`);
 
