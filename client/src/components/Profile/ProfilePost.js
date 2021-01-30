@@ -8,6 +8,7 @@ import {
   Button,
 } from "@material-ui/core/";
 import AlertDialog from "./AlertDialog";
+import EditDialog from "./EditDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,6 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfilePost(props) {
   const classes = useStyles();
+  const [post, setPost] = useState();
 
   const listInfo = ["LOCATION:", "LIMIT:", "TIME:", "DATE:"];
   const { location, limit, time, date } = props;
@@ -120,9 +122,7 @@ export default function ProfilePost(props) {
             />
           </Grid>
           <Grid item>
-            <Button>
-              <Typography>Edit</Typography>
-            </Button>
+            <EditDialog postTitle={props.title} />
           </Grid>
         </Grid>
       </Container>

@@ -11,6 +11,8 @@ import {
   Typography,
   Button,
 } from "@material-ui/core/";
+import { Link } from "@reach/router";
+import useUser from "../../userContext/useUser";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -65,6 +67,7 @@ const useStyles = makeStyles(theme => ({
 export default function Post(props) {
   const classes = useStyles();
   const [value, setValue] = useState("");
+  const { user } = useUser;
 
   const handleRadio = event => {
     setValue(event.target.value);

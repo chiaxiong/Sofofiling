@@ -35,6 +35,8 @@ export default function Feed() {
   const { token, user } = useUser();
   const [activePost, setActivePost] = useState(true);
   const [activePostObject, setActivePostObject] = useState({});
+  const [userDetails, setUserDetails] = useState({});
+  const [userInfo, setUserInfo] = useState({});
 
   const headers = { headers: { "x-auth-token": token } };
 
@@ -80,6 +82,7 @@ export default function Feed() {
           const allPosts = data[1].data;
 
           let userData = allUsers;
+
           let filterUser = userData.find(currentUser => {
             if (user._id === currentUser._id) {
               return true;
@@ -87,6 +90,8 @@ export default function Feed() {
               return false;
             }
           });
+
+          setUserInfo(userData);
 
           let subscribedCategory = filterUser.subscriptions;
           let filterPosts = allPosts.filter(post => {
@@ -109,6 +114,7 @@ export default function Feed() {
     axios
       .get(`http://localhost:5000/api/post/category/${categoryId}`, headers)
       .then(({ data }) => {
+        console.log(data);
         setPosts(data);
       })
       .catch(err => {
