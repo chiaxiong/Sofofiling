@@ -61,7 +61,13 @@ router.put("/:id", async (req, res) => {
       req.params.id,
       {
         content: req.body.content,
+        title: req.body.title,
+        limit: req.body.limit,
         location: req.body.location,
+        category: req.body.category,
+        service: req.body.service,
+        time: req.body.time,
+        date: req.body.date,
       },
       { new: true }
     );
@@ -98,6 +104,23 @@ router.get("/category/:category", async (req, res) => {
     return res.send(posts);
   } catch (error) {
     return res.status(500).send(`Server error: ${error}`);
+  }
+});
+
+router.post("/uploads", async (req, res) => {
+  try {
+    const file = req.files.files;
+
+    if (!file || files === null) {
+      return res.status(400).send("File not uploaded");
+    }
+
+    file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
+      console.error(err);
+      return res.status(500).send(error);
+    });
+  } catch (error) {
+    console.error(error);
   }
 });
 

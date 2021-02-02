@@ -26,6 +26,9 @@ const postSchema = new mongoose.Schema({
   time: { type: String },
   date: { type: String },
   service: { type: String },
+  // img: {
+  //   type: String,
+  // },
 });
 
 const Post = mongoose.model("Post", postSchema);

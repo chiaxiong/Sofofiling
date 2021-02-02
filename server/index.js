@@ -2,12 +2,15 @@ const connectDB = require("./db/server");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 connectDB();
 
 const UserRoute = require("./routes/user");
 const PostRoute = require("./routes/post");
 const AuthRoute = require("./routes/auth");
+
+app.use(fileUpload());
 
 app.use(express.json());
 app.use(cors());
