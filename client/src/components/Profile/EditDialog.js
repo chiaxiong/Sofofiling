@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function EditDialog({ postTitle, postId, deletePost }) {
+export default function EditDialog({ postTitle, postId, updatePost }) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const [radio, setRadio] = useState("no");
@@ -71,9 +71,26 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
     setOpen(false);
   };
 
-  const removePost = postId => {
-    deletePost(postId);
+  const editPost = postId => {
+    updatePost(postId);
   };
+
+  const formik = useFormik({
+    initialValues: {
+      content: "",
+      location: "",
+      limit: "0",
+      title: "",
+      time: "",
+      date: "",
+      category: "",
+      service: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      // onPostSubmit(values);
+      resetForm();
+    },
+  });
 
   return (
     <div>
@@ -96,6 +113,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                   type="text"
                   name="content"
                   id="content"
+                  value={formik.values.content}
                   className={classes.texbox}
                   autoComplete="off"
                   placeholder="How are you doing?"
@@ -108,7 +126,11 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                   <label htmlFor="service" className={classes.label}>
                     SERVICE
                   </label>
-                  <select name="service" id="service" className={classes.input}>
+                  <select
+                    name="service"
+                    id="service"
+                    value={formik.values.service}
+                    className={classes.input}>
                     <option value="none" hidden>
                       --select service--
                     </option>
@@ -122,6 +144,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                     type="text"
                     name="title"
                     id="title"
+                    value={formik.values.title}
                     autoComplete="off"
                     className={classes.input}
                   />
@@ -132,6 +155,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                     type="text"
                     name="location"
                     id="location"
+                    value={formik.values.location}
                     autoComplete="off"
                     className={classes.input}
                   />
@@ -170,6 +194,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                           type="text"
                           name="limit"
                           id="limit"
+                          value={formik.values.limit}
                           autoComplete="off"
                           style={{
                             border: "none",
@@ -189,6 +214,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                     type="text"
                     name="time"
                     id="time"
+                    value={formik.values.time}
                     autoComplete="off"
                     className={classes.input}
                   />
@@ -199,6 +225,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                     type="text"
                     name="date"
                     id="date"
+                    value={formik.values.date}
                     autoComplete="off"
                     className={classes.input}
                   />
@@ -206,6 +233,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
                   <select
                     name="category"
                     id="category"
+                    value={formik.values.category}
                     style={{
                       marginTop: "10px",
                       borderBottom: "1px solid black",
@@ -229,7 +257,7 @@ export default function EditDialog({ postTitle, postId, deletePost }) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => removePost(postId)} color="primary" autoFocus>
+          <Button onClick={() => editPost(postId)} color="primary" autoFocus>
             Update
           </Button>
         </DialogActions>

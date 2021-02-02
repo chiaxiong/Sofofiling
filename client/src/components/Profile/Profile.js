@@ -11,31 +11,12 @@ export default function Profile() {
   const [userPosts, setUserPosts] = useState([]);
   const [refreshPost, setRefreshPost] = useState(true);
   const [currentUser, setCurrentUser] = useState();
+  const [updatePost, setUpdatePost] = useState(null);
 
   const { token, user } = useUser();
   if (!user) navigate("/signin");
 
   const headers = { headers: { "x-auth-token": token } };
-  const userAPI = "http://localhost:5000/api/user";
-  const postAPI = "http://localhost:5000/api/post";
-
-  // useEffect(() => {
-  //   axios
-  //     .get(postAPI, headers)
-  //     .then(({ data }) => {
-  //       let userPosts = data.filter(userPost => {
-  //         if (userPost.user._id === user._id) {
-  //           return true;
-  //         } else {
-  //           return false;
-  //         }
-  //       });
-  //       setUserPosts(userPosts);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }, [refreshPost]);
 
   useEffect(async () => {
     const userAPI = "http://localhost:5000/api/user";
@@ -80,6 +61,30 @@ export default function Profile() {
       .then(() => setRefreshPost(!refreshPost));
   };
 
+  const editPost = async (postId, form) => {
+    console.log(form);
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/post/${postId}`,
+        {
+          content: form.content,
+          title: form.title,
+          limit: parseInt(form.limit),
+          location: form.location,
+          category: form.category,
+          service: form.service,
+          time: form.time,
+          date: form.date,
+        },
+        headers
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Grid container>
@@ -93,6 +98,7 @@ export default function Profile() {
               {...post}
               deletePost={deletePost}
               userInfo={currentUser}
+              updatePost={editPost}
             />
           ))}
         </Grid>

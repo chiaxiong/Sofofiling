@@ -88,6 +88,7 @@ export default function PostForm({ onPostSubmit }) {
       resetForm();
     },
   });
+  const [selectImg, setSelectImg] = useState(null);
 
   const [radio, setRadio] = useState("no");
 
@@ -98,6 +99,11 @@ export default function PostForm({ onPostSubmit }) {
   };
   const handleClose = () => {
     setLimitToggle(false);
+  };
+
+  const handleImg = e => {
+    setSelectImg(e.target.files[0]);
+    console.log(e.target.files[0]);
   };
 
   return (
@@ -256,6 +262,8 @@ export default function PostForm({ onPostSubmit }) {
               <option value="Game">Game</option>
               <option value="Cooking">Cooking</option>
             </select>
+
+            <input type="file" onClick={handleImg} />
           </Grid>
         </Grid>
         <Button type="submit" onClick={() => onPostSubmit(formik)}>

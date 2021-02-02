@@ -35,8 +35,8 @@ export default function Feed() {
   const { token, user } = useUser();
   const [activePost, setActivePost] = useState(true);
   const [activePostObject, setActivePostObject] = useState({});
-  const [userDetails, setUserDetails] = useState({});
-  const [userInfo, setUserInfo] = useState({});
+  // const [userDetails, setUserDetails] = useState({});
+  // const [userInfo, setUserInfo] = useState({});
 
   const headers = { headers: { "x-auth-token": token } };
 
@@ -90,8 +90,6 @@ export default function Feed() {
               return false;
             }
           });
-
-          setUserInfo(userData);
 
           let subscribedCategory = filterUser.subscriptions;
           let filterPosts = allPosts.filter(post => {
@@ -172,7 +170,6 @@ export default function Feed() {
 
           let userData = allUsers;
           let filterUser = userData.find(currentUser => {
-            console.log(currentUser);
             if (user._id === currentUser._id) {
               return true;
             } else {

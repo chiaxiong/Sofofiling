@@ -72,6 +72,10 @@ export default function ProfilePost(props) {
     props.deletePost(postId);
   };
 
+  const postUpdate = postId => {
+    props.updatePost(postId);
+  };
+
   return (
     <div className={classes.root}>
       <Container className={classes.card}>
@@ -122,7 +126,11 @@ export default function ProfilePost(props) {
             />
           </Grid>
           <Grid item>
-            <EditDialog postTitle={props.title} />
+            <EditDialog
+              postTitle={props.title}
+              postId={props._id}
+              updatePost={postUpdate}
+            />
           </Grid>
         </Grid>
       </Container>
