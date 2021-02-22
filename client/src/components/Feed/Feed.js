@@ -227,7 +227,7 @@ export default function Feed() {
       <div>
         <Grid container display="flex">
           <Grid item className={classes.menu}>
-            <MenuNav />
+            <MenuNav style={{ border: "red" }} />
           </Grid>
           <Grid item>
             <SideBar
@@ -266,8 +266,14 @@ export default function Feed() {
             </Grid>
           ) : (
             <>
-              <Post {...activePostObject} prevState={setFeed} />
-              <Message />
+              <Grid>
+                <Grid item>
+                  <Post {...activePostObject} prevState={setFeed} />
+                </Grid>
+                <Grid item>
+                  <Message />
+                </Grid>
+              </Grid>
             </>
           )}
         </Grid>

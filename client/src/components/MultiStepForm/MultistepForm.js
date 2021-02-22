@@ -25,7 +25,6 @@ export default function StepForm() {
   };
   //handle form
   const handleChange = name => event => {
-    console.log({ ...form, [name]: event.target.value });
     setForm({ ...form, [name]: event.target.value });
   };
   //deconstruct from state so we do not need to pass in dot notation

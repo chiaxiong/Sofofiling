@@ -3,17 +3,15 @@ import { Paper, Grid, Avatar, TextField } from "@material-ui/core";
 
 export default function Comment() {
   return (
-    <div>
-      <Paper>
-        <Grid container>
-          <Grid item>
-            <Avatar />
-          </Grid>
-          <Grid item>
-            <TextField placeholder="Comment" />
-          </Grid>
+    <div style={{ marginLeft: "90px" }}>
+      <Grid container>
+        <Grid item>
+          <Avatar />
         </Grid>
-      </Paper>
+        <Grid item style={{ marginLeft: "20px" }}>
+          <TextField placeholder="Comment" />
+        </Grid>
+      </Grid>
     </div>
   );
 }

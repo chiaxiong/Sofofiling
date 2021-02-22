@@ -30,6 +30,10 @@ const useStyles = makeStyles(theme => ({
     width: "50px",
     height: "50px",
   },
+  postBody: {
+    marginTop: "90px",
+    marginLeft: "40px",
+  },
   name: {
     marginLeft: "16px",
     fontSize: "1.5em",
@@ -109,22 +113,24 @@ export default function PostForm({ onPostSubmit }) {
   return (
     <div className={classes.root}>
       <form onSubmit={formik.handleSubmit}>
-        <Grid className={classes.cardHeader}>
-          <Avatar className={classes.avatar} />
-        </Grid>
-        <Grid>
-          <TextField
-            type="text"
-            name="content"
-            id="content"
-            value={formik.values.content}
-            onChange={formik.handleChange}
-            className={classes.texbox}
-            autoComplete="off"
-            placeholder="How are you doing?"
-            multiline
-            rows="5"
-          />
+        <Grid container>
+          <Grid item className={classes.cardHeader}>
+            <Avatar className={classes.avatar} />
+          </Grid>
+          <Grid item className={classes.postBody}>
+            <TextField
+              type="text"
+              name="content"
+              id="content"
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              className={classes.texbox}
+              autoComplete="off"
+              placeholder="How are you doing?"
+              multiline
+              rows="5"
+            />
+          </Grid>
         </Grid>
         <Grid container>
           <Grid item className={classes.form}>
